@@ -1,0 +1,11 @@
+[
+  {
+    "id": "guess-taiwanese-food",
+    "name": "猜台灣小吃",
+    "description": "Wordle 風格猜字遊戲，猜三個字的台灣小吃名",
+    "type": "word-puzzle",
+    "status": "testing",
+    "created": "2026-02-27",
+    "tags": ["wordle", "台灣", "小吃", "中文"]
+  }
+]
