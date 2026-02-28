@@ -26,6 +26,15 @@ header {
 header h1 { font-size: 28px; letter-spacing: 2px; }
 header p { font-size: 12px; color: #818384; margin-top: 4px; }
 
+#hint {
+  background: #1a1a1b;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #e5c236;
+  margin: 12px 0 0;
+}
 #game { width: 100%; max-width: 500px; padding: 10px; flex: 1; display: flex; flex-direction: column; align-items: center; }
 
 /* 格子區 */
@@ -189,9 +198,10 @@ footer {
 <body>
 <header>
   <h1>🍜 猜台灣小吃</h1>
-  <p>每天一道，你有 6 次機會</p>
+  <p>每天一道，你有 4 次機會</p>
 </header>
 <div id="game">
+  <div id="hint"></div>
   <div id="board"></div>
   <div id="message"></div>
   <div id="input-area">
@@ -219,22 +229,66 @@ footer {
 <script>
 // === 小吃清單（50+，都是3個字）===
 const FOODS = [
-  "滷肉飯","臭豆腐","蚵仔煎","鳳梨酥","太陽餅",
-  "牛肉麵","蔥油餅","胡椒餅","豬血糕","車輪餅",
-  "芋圓冰","仙草凍","愛玉冰","鹹酥雞","雞肉飯",
-  "肉圓湯","碗粿糕","蛋餅捲","水煎包","小籠包",
-  "生煎包","鍋貼餃","紅豆餅","草仔粿","米糕筒",
-  "筒仔米","麻糬球","花生糖","牛舌餅","綠豆椪",
-  "蘿蔔糕","油飯糕","米粉湯","擔仔麵","意麵羹",
-  "大腸麵","蚵仔麵","魷魚羹","花枝丸","甜不辣",
-  "潤餅捲","割包夾","排骨飯","雞腿飯","便當盒",
-  "豆花湯","燒仙草","木瓜牛","珍珠奶","冬瓜茶",
-  "青草茶","楊桃汁","酸梅湯","麵茶粉","炸雞排"
+  {name:"滷肉飯",hint:"便當店的靈魂"},
+  {name:"臭豆腐",hint:"聞到先皺眉，吃到就上癮"},
+  {name:"蚵仔煎",hint:"夜市鐵板上的海味"},
+  {name:"鳳梨酥",hint:"外國人最愛帶回家的伴手禮"},
+  {name:"太陽餅",hint:"台中名產，但裡面沒有太陽"},
+  {name:"牛肉麵",hint:"紅燒或清燉，冠軍賽年年辦"},
+  {name:"蔥油餅",hint:"路邊攤壓得扁扁的麵團香"},
+  {name:"胡椒餅",hint:"烤爐貼壁，咬一口會燙嘴"},
+  {name:"豬血糕",hint:"外國人最怕的台灣小吃之一"},
+  {name:"車輪餅",hint:"紅豆奶油任你選的圓形點心"},
+  {name:"芋圓冰",hint:"九份老街人手一碗"},
+  {name:"仙草凍",hint:"黑色的，但是是甜的"},
+  {name:"愛玉冰",hint:"山上採的籽搓出來的透明果凍"},
+  {name:"鹹酥雞",hint:"宵夜排隊王，九層塔是靈魂"},
+  {name:"雞肉飯",hint:"嘉義人的驕傲"},
+  {name:"肉圓湯",hint:"彰化名產，透明外皮包肉餡"},
+  {name:"碗粿糕",hint:"白白的用碗蒸，配醬油膏"},
+  {name:"蛋餅捲",hint:"台灣人早餐的國民選擇"},
+  {name:"水煎包",hint:"底部煎到金黃脆脆的包子"},
+  {name:"小籠包",hint:"薄皮裡藏著燙口湯汁"},
+  {name:"生煎包",hint:"上海來的，但台灣人也超愛"},
+  {name:"鍋貼餃",hint:"比水餃多了一面焦香"},
+  {name:"紅豆餅",hint:"冬天校門口最療癒的點心"},
+  {name:"草仔粿",hint:"清明節拜拜常見的綠色糕點"},
+  {name:"米糕筒",hint:"糯米飯壓得緊緊的筒狀小吃"},
+  {name:"筒仔米",hint:"用竹筒蒸出來的糯米香"},
+  {name:"麻糬球",hint:"QQ的會牽絲，花生粉是好朋友"},
+  {name:"花生糖",hint:"過年必買的古早味零嘴"},
+  {name:"牛舌餅",hint:"形狀像牛舌頭的薄脆餅"},
+  {name:"綠豆椪",hint:"中秋節不只月餅還有它"},
+  {name:"蘿蔔糕",hint:"過年必吃，煎到兩面恰恰"},
+  {name:"油飯糕",hint:"生小孩滿月會送的糯米飯"},
+  {name:"米粉湯",hint:"清湯配細細白白的米製麵條"},
+  {name:"擔仔麵",hint:"台南度小月的招牌"},
+  {name:"意麵羹",hint:"黃色的麵條配勾芡湯頭"},
+  {name:"大腸麵",hint:"大腸頭配麵線的經典組合"},
+  {name:"蚵仔麵",hint:"鮮蚵配麵線，廟口必吃"},
+  {name:"魷魚羹",hint:"勾芡湯裡的海鮮條"},
+  {name:"花枝丸",hint:"彈牙的海鮮丸子，炸的最讚"},
+  {name:"甜不辣",hint:"日本關東煮的台灣親戚"},
+  {name:"潤餅捲",hint:"清明節用薄皮包一堆料"},
+  {name:"割包夾",hint:"台灣漢堡，夾滷肉和花生粉"},
+  {name:"排骨飯",hint:"便當店的人氣王，炸的滷的都有"},
+  {name:"雞腿飯",hint:"便當雙霸之一，學生最愛"},
+  {name:"便當盒",hint:"鐵路上最有名的那一盒"},
+  {name:"豆花湯",hint:"軟嫩白色的甜品，加糖水最對味"},
+  {name:"燒仙草",hint:"冬天來一碗熱呼呼的黑色甜湯"},
+  {name:"木瓜牛",hint:"橘色的果汁，夜市必喝"},
+  {name:"珍珠奶",hint:"征服全世界的台灣飲料"},
+  {name:"冬瓜茶",hint:"古早味甜茶，糖磚煮出來的"},
+  {name:"青草茶",hint:"路邊涼茶攤的退火聖品"},
+  {name:"楊桃汁",hint:"鹹鹹甜甜的黃色果汁"},
+  {name:"酸梅湯",hint:"冰冰酸酸的，夏天超解渴"},
+  {name:"麵茶粉",hint:"沖熱水攪一攪的古早味飲品"},
+  {name:"炸雞排",hint:"比臉還大的台灣國民小吃"}
 ];
 
 // === 合法猜測清單（包含所有答案 + 額外常見詞）===
 const VALID_GUESSES = new Set([
-  ...FOODS,
+  ...FOODS.map(f=>f.name),
   "紅燒肉","白斬雞","三杯雞","麻辣鍋","酸辣湯",
   "炒米粉","炒飯糰","飯糰捲","豬腳麵","滷味攤",
   "鹽酥雞","雞蛋糕","章魚燒","可麗餅","鬆餅塔",
@@ -242,16 +296,19 @@ const VALID_GUESSES = new Set([
 ]);
 
 // === 根據日期選答案 ===
+let todayHint = '';
 function getTodayAnswer() {
   const now = new Date();
   const start = new Date(2026, 0, 1);
   const diff = Math.floor((now - start) / 86400000);
-  return FOODS[diff % FOODS.length];
+  const food = FOODS[diff % FOODS.length];
+  todayHint = food.hint;
+  return food.name;
 }
 
 // === 遊戲狀態 ===
 const ANSWER = getTodayAnswer();
-const MAX_GUESSES = 6;
+const MAX_GUESSES = 4;
 const WORD_LEN = 3;
 let currentRow = 0;
 let gameOver = false;
@@ -260,7 +317,7 @@ let guesses = [];
 // === localStorage ===
 function getStats() {
   const d = localStorage.getItem('twfood-stats');
-  return d ? JSON.parse(d) : { played: 0, won: 0, streak: 0, maxStreak: 0, dist: {1:0,2:0,3:0,4:0,5:0,6:0} };
+  return d ? JSON.parse(d) : { played: 0, won: 0, streak: 0, maxStreak: 0, dist: {1:0,2:0,3:0,4:0} };
 }
 function saveStats(s) { localStorage.setItem('twfood-stats', JSON.stringify(s)); }
 
@@ -380,7 +437,7 @@ function showStats(highlightRow) {
   distEl.innerHTML = '';
   const maxVal = Math.max(1, ...Object.values(s.dist));
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 4; i++) {
     const row = document.createElement('div');
     row.className = 'stat-row';
     const label = document.createElement('div');
@@ -442,7 +499,7 @@ function submitGuess() {
     const delay = WORD_LEN * 300 + 300;
     setTimeout(() => {
       if (won) {
-        const msgs = ['天才！🎉', '太強了！💪', '厲害！👏', '不錯喔！😄', '好險！😅', '差一點就 GG 😂'];
+        const msgs = ['天才！🎉', '厲害！👏', '不錯喔！😄', '好險！😅'];
         endTitle.textContent = msgs[currentRow] || '答對了！';
       } else {
         endTitle.textContent = '沒猜到 😢';
@@ -552,6 +609,7 @@ shareBtn.addEventListener('click', () => {
 });
 
 // === 初始化 ===
+document.getElementById('hint').textContent = '💡 提示：' + todayHint;
 createBoard();
 restoreState();
 input.focus();
