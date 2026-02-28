@@ -2,645 +2,197 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>猜台灣小吃</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: #121213;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  user-select: none;
-}
-header {
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #3a3a3c;
-}
-header h1 { font-size: 28px; letter-spacing: 2px; }
-header p { font-size: 12px; color: #818384; margin-top: 4px; }
-
-#hint {
-  background: #1a1a1b;
-  border-radius: 8px;
-  padding: 12px 20px;
-  text-align: center;
-  font-size: 16px;
-  color: #e5c236;
-  margin: 12px 0 0;
-}
-#game { width: 100%; max-width: 500px; padding: 10px; flex: 1; display: flex; flex-direction: column; align-items: center; }
-
-/* 格子區 */
-#board {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 20px 0;
-}
-.row {
-  display: flex;
-  gap: 6px;
-}
-.tile {
-  width: 72px;
-  height: 72px;
-  border: 2px solid #3a3a3c;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: bold;
-  transition: transform 0.3s, background 0.3s;
-}
-.tile.filled { border-color: #565758; }
-.tile.correct { background: #538d4e; border-color: #538d4e; }
-.tile.present { background: #b59f3b; border-color: #b59f3b; }
-.tile.absent { background: #3a3a3c; border-color: #3a3a3c; }
-.tile.flip {
-  animation: flip 0.5s ease forwards;
-}
-@keyframes flip {
-  0% { transform: scaleY(1); }
-  50% { transform: scaleY(0); }
-  100% { transform: scaleY(1); }
-}
-.tile.pop {
-  animation: pop 0.1s ease;
-}
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.12); }
-  100% { transform: scale(1); }
-}
-
-/* 輸入區 */
-#input-area {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin: 10px 0;
-}
-#text-input {
-  font-size: 24px;
-  padding: 10px 16px;
-  width: 180px;
-  text-align: center;
-  background: #272729;
-  border: 2px solid #565758;
-  color: #fff;
-  border-radius: 8px;
-  outline: none;
-}
-#text-input:focus { border-color: #818384; }
-#submit-btn, #clear-btn {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-#submit-btn {
-  background: #538d4e;
-  color: #fff;
-}
-#submit-btn:active { background: #4a7d45; }
-#clear-btn {
-  background: #3a3a3c;
-  color: #fff;
-}
-
-/* 訊息 */
-#message {
-  min-height: 36px;
-  font-size: 16px;
-  text-align: center;
-  margin: 8px 0;
-  color: #e5c236;
-}
-
-/* 結束畫面 */
-#end-screen {
-  display: none;
-  text-align: center;
-  margin: 16px 0;
-}
-#end-screen h2 { font-size: 24px; margin-bottom: 8px; }
-#end-screen p { color: #818384; margin-bottom: 12px; }
-#share-btn {
-  padding: 12px 32px;
-  font-size: 16px;
-  background: #538d4e;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-#share-btn:active { background: #4a7d45; }
-
-/* 統計 */
-#stats {
-  display: none;
-  text-align: center;
-  margin: 12px 0;
-  padding: 12px;
-  background: #1a1a1b;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 320px;
-}
-#stats h3 { margin-bottom: 8px; font-size: 16px; }
-.stat-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 3px 0;
-  font-size: 14px;
-}
-.stat-row .label { width: 20px; text-align: right; }
-.stat-row .bar {
-  height: 20px;
-  background: #3a3a3c;
-  min-width: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 6px;
-  font-size: 12px;
-  border-radius: 3px;
-}
-.stat-row .bar.highlight { background: #538d4e; }
-.stat-numbers {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 12px;
-}
-.stat-item { text-align: center; }
-.stat-item .num { font-size: 28px; font-weight: bold; }
-.stat-item .lbl { font-size: 11px; color: #818384; }
-
-footer {
-  padding: 10px;
-  text-align: center;
-  font-size: 11px;
-  color: #565758;
-}
-
-/* 教學彈窗 */
-#tutorial-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7); display: flex; align-items: center;
-  justify-content: center; z-index: 100;
-}
-#tutorial {
-  background: #1a1a1b; border-radius: 12px; padding: 24px;
-  max-width: 360px; width: 90%; color: #fff; text-align: left;
-}
-#tutorial h2 { text-align: center; margin-bottom: 12px; font-size: 22px; }
-#tutorial p { font-size: 14px; color: #ccc; margin: 8px 0; line-height: 1.6; }
-#tutorial .example { display: flex; gap: 4px; margin: 8px 0; }
-#tutorial .example .t {
-  width: 36px; height: 36px; display: flex; align-items: center;
-  justify-content: center; font-size: 18px; font-weight: bold;
-  border-radius: 4px;
-}
-#tutorial .t.g { background: #538d4e; }
-#tutorial .t.y { background: #b59f3b; }
-#tutorial .t.x { background: #3a3a3c; }
-#tutorial-btn {
-  display: block; width: 100%; margin-top: 16px; padding: 12px;
-  font-size: 16px; font-weight: bold; background: #538d4e; color: #fff;
-  border: none; border-radius: 8px; cursor: pointer;
-}
-/* 再玩一次 */
-#replay-btn {
-  padding: 12px 32px; font-size: 16px; background: #b59f3b; color: #fff;
-  border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
-  margin-top: 8px;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#121213;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;user-select:none}
+header{width:100%;max-width:420px;text-align:center;padding:12px 0;border-bottom:1px solid #3a3a3c}
+header h1{font-size:26px;letter-spacing:2px}
+#game{width:100%;max-width:420px;padding:16px;flex:1;display:flex;flex-direction:column;align-items:center}
+#hint{background:#1a1a1b;border-radius:8px;padding:10px 16px;text-align:center;font-size:15px;color:#e5c236;margin:12px 0;width:100%}
+#chances{font-size:14px;color:#818384;margin:8px 0}
+#chances span{color:#538d4e;font-weight:bold}
+#history{width:100%;margin:8px 0}
+.hist-row{display:flex;align-items:center;gap:5px;margin:4px 0;justify-content:center}
+.hist-tile{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;border-radius:5px}
+.hist-tile.correct{background:#538d4e}.hist-tile.present{background:#b59f3b}.hist-tile.absent{background:#3a3a3c}
+#current-row{display:flex;gap:6px;margin:12px 0}
+.tile{width:52px;height:52px;border:2px solid #3a3a3c;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;border-radius:6px}
+.tile.filled{border-color:#565758}
+#input-area{display:flex;gap:8px;align-items:center;margin:8px 0}
+#text-input{font-size:22px;padding:10px 14px;width:160px;text-align:center;background:#272729;border:2px solid #565758;color:#fff;border-radius:8px;outline:none}
+#text-input:focus{border-color:#818384}
+#submit-btn{padding:10px 20px;font-size:16px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;background:#538d4e;color:#fff}
+#message{min-height:28px;font-size:15px;text-align:center;margin:6px 0;color:#e5c236}
+#end-screen{display:none;text-align:center;margin:12px 0}
+#end-screen h2{font-size:22px;margin-bottom:6px}
+#end-screen p{color:#818384;margin-bottom:10px}
+.end-btn{padding:10px 28px;font-size:15px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;color:#fff;margin:4px}
+#share-btn{background:#538d4e}#replay-btn{background:#b59f3b}
+#tutorial-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100}
+#tutorial{background:#1a1a1b;border-radius:12px;padding:24px;max-width:340px;width:90%;color:#fff;text-align:left}
+#tutorial h2{text-align:center;margin-bottom:10px;font-size:22px}
+#tutorial p{font-size:14px;color:#ccc;margin:6px 0;line-height:1.5}
+.ex{display:flex;gap:4px;margin:6px 0}
+.ex .t{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:bold;border-radius:4px}
+.t.g{background:#538d4e}.t.y{background:#b59f3b}.t.x{background:#3a3a3c}
+#tutorial-btn{display:block;width:100%;margin-top:14px;padding:12px;font-size:16px;font-weight:bold;background:#538d4e;color:#fff;border:none;border-radius:8px;cursor:pointer}
+footer{padding:8px;text-align:center;font-size:11px;color:#565758}
 </style>
 </head>
 <body>
-<div id="tutorial-overlay">
-<div id="tutorial">
-  <h2>🍜 怎麼玩？</h2>
-  <p>根據提示，猜出一道<b>三個字</b>的台灣小吃。你有 <b>4 次</b>機會！</p>
-  <p>每次猜完，格子會變色告訴你：</p>
-  <div class="example">
-    <div class="t g">滷</div><div class="t x">肉</div><div class="t x">麵</div>
-  </div>
-  <p>🟩 <b>綠色</b>＝這個字對了，位置也對</p>
-  <div class="example">
-    <div class="t x">鹹</div><div class="t y">酥</div><div class="t x">餅</div>
-  </div>
-  <p>🟨 <b>黃色</b>＝有這個字，但位置不對</p>
-  <p>⬛ <b>灰色</b>＝答案裡沒有這個字</p>
-  <button id="tutorial-btn">我懂了，開始！</button>
-</div>
-</div>
-
-<header>
-  <h1>🍜 猜台灣小吃</h1>
-  <p>猜猜看這是什麼小吃？</p>
-</header>
+<div id="tutorial-overlay"><div id="tutorial">
+<h2>🍜 怎麼玩？</h2>
+<p>根據提示，猜出一道<b>三個字</b>的台灣小吃。</p>
+<p>你有 <b>4 次</b>機會，每次猜完格子會變色：</p>
+<div class="ex"><div class="t g">滷</div><div class="t x">肉</div><div class="t x">麵</div></div>
+<p>🟩 綠色＝字對、位置也對</p>
+<div class="ex"><div class="t x">鹹</div><div class="t y">酥</div><div class="t x">餅</div></div>
+<p>🟨 黃色＝有這個字，但位置不對</p>
+<p>⬛ 灰色＝答案裡沒這個字</p>
+<button id="tutorial-btn">我懂了，開始！</button>
+</div></div>
+<header><h1>🍜 猜台灣小吃</h1></header>
 <div id="game">
-  <div id="hint"></div>
-  <div id="board"></div>
-  <div id="message"></div>
-  <div id="input-area">
-    <input type="text" id="text-input" maxlength="3" placeholder="輸入三個字" autocomplete="off">
-    <button id="submit-btn">送出</button>
-    <button id="clear-btn">清除</button>
-  </div>
-  <div id="end-screen">
-    <h2 id="end-title"></h2>
-    <p id="end-answer"></p>
-    <button id="share-btn">📋 分享結果</button>
-    <button id="replay-btn">🔄 再玩一次</button>
-  </div>
-  <div id="stats">
-    <div class="stat-numbers">
-      <div class="stat-item"><div class="num" id="s-played">0</div><div class="lbl">遊玩次數</div></div>
-      <div class="stat-item"><div class="num" id="s-win">0</div><div class="lbl">勝率%</div></div>
-      <div class="stat-item"><div class="num" id="s-streak">0</div><div class="lbl">連勝</div></div>
-      <div class="stat-item"><div class="num" id="s-max">0</div><div class="lbl">最高連勝</div></div>
-    </div>
-    <h3>猜測分佈</h3>
-    <div id="distribution"></div>
-  </div>
+<div id="hint"></div>
+<div id="chances">剩餘 <span id="chances-num">4</span> 次機會</div>
+<div id="history"></div>
+<div id="current-row"></div>
+<div id="message"></div>
+<div id="input-area">
+<input type="text" id="text-input" maxlength="3" placeholder="輸入三個字" autocomplete="off">
+<button id="submit-btn">送出</button>
 </div>
-<footer>猜台灣小吃 v1.0 — 用 ❤️ 做的</footer>
+<div id="end-screen">
+<h2 id="end-title"></h2>
+<p id="end-answer"></p>
+<button class="end-btn" id="share-btn">📋 分享</button>
+<button class="end-btn" id="replay-btn">🔄 再來一題</button>
+</div>
+</div>
+<footer>猜台灣小吃 v2.0</footer>
 <script>
-// === 小吃清單（50+，都是3個字）===
-const FOODS = [
-  {name:"滷肉飯",hint:"便當店的靈魂"},
-  {name:"臭豆腐",hint:"聞到先皺眉，吃到就上癮"},
-  {name:"蚵仔煎",hint:"夜市鐵板上的海味"},
-  {name:"鳳梨酥",hint:"外國人最愛帶回家的伴手禮"},
-  {name:"太陽餅",hint:"台中名產，但裡面沒有太陽"},
-  {name:"牛肉麵",hint:"紅燒或清燉，冠軍賽年年辦"},
-  {name:"蔥油餅",hint:"路邊攤壓得扁扁的麵團香"},
-  {name:"胡椒餅",hint:"烤爐貼壁，咬一口會燙嘴"},
-  {name:"豬血糕",hint:"外國人最怕的台灣小吃之一"},
-  {name:"車輪餅",hint:"紅豆奶油任你選的圓形點心"},
-  {name:"芋圓冰",hint:"九份老街人手一碗"},
-  {name:"仙草凍",hint:"黑色的，但是是甜的"},
-  {name:"愛玉冰",hint:"山上採的籽搓出來的透明果凍"},
-  {name:"鹹酥雞",hint:"宵夜排隊王，九層塔是靈魂"},
-  {name:"雞肉飯",hint:"嘉義人的驕傲"},
-  {name:"肉圓湯",hint:"彰化名產，透明外皮包肉餡"},
-  {name:"碗粿糕",hint:"白白的用碗蒸，配醬油膏"},
-  {name:"蛋餅捲",hint:"台灣人早餐的國民選擇"},
-  {name:"水煎包",hint:"底部煎到金黃脆脆的包子"},
-  {name:"小籠包",hint:"薄皮裡藏著燙口湯汁"},
-  {name:"生煎包",hint:"上海來的，但台灣人也超愛"},
-  {name:"鍋貼餃",hint:"比水餃多了一面焦香"},
-  {name:"紅豆餅",hint:"冬天校門口最療癒的點心"},
-  {name:"草仔粿",hint:"清明節拜拜常見的綠色糕點"},
-  {name:"米糕筒",hint:"糯米飯壓得緊緊的筒狀小吃"},
-  {name:"筒仔米",hint:"用竹筒蒸出來的糯米香"},
-  {name:"麻糬球",hint:"QQ的會牽絲，花生粉是好朋友"},
-  {name:"花生糖",hint:"過年必買的古早味零嘴"},
-  {name:"牛舌餅",hint:"形狀像牛舌頭的薄脆餅"},
-  {name:"綠豆椪",hint:"中秋節不只月餅還有它"},
-  {name:"蘿蔔糕",hint:"過年必吃，煎到兩面恰恰"},
-  {name:"油飯糕",hint:"生小孩滿月會送的糯米飯"},
-  {name:"米粉湯",hint:"清湯配細細白白的米製麵條"},
-  {name:"擔仔麵",hint:"台南度小月的招牌"},
-  {name:"意麵羹",hint:"黃色的麵條配勾芡湯頭"},
-  {name:"大腸麵",hint:"大腸頭配麵線的經典組合"},
-  {name:"蚵仔麵",hint:"鮮蚵配麵線，廟口必吃"},
-  {name:"魷魚羹",hint:"勾芡湯裡的海鮮條"},
-  {name:"花枝丸",hint:"彈牙的海鮮丸子，炸的最讚"},
-  {name:"甜不辣",hint:"日本關東煮的台灣親戚"},
-  {name:"潤餅捲",hint:"清明節用薄皮包一堆料"},
-  {name:"割包夾",hint:"台灣漢堡，夾滷肉和花生粉"},
-  {name:"排骨飯",hint:"便當店的人氣王，炸的滷的都有"},
-  {name:"雞腿飯",hint:"便當雙霸之一，學生最愛"},
-  {name:"便當盒",hint:"鐵路上最有名的那一盒"},
-  {name:"豆花湯",hint:"軟嫩白色的甜品，加糖水最對味"},
-  {name:"燒仙草",hint:"冬天來一碗熱呼呼的黑色甜湯"},
-  {name:"木瓜牛",hint:"橘色的果汁，夜市必喝"},
-  {name:"珍珠奶",hint:"征服全世界的台灣飲料"},
-  {name:"冬瓜茶",hint:"古早味甜茶，糖磚煮出來的"},
-  {name:"青草茶",hint:"路邊涼茶攤的退火聖品"},
-  {name:"楊桃汁",hint:"鹹鹹甜甜的黃色果汁"},
-  {name:"酸梅湯",hint:"冰冰酸酸的，夏天超解渴"},
-  {name:"麵茶粉",hint:"沖熱水攪一攪的古早味飲品"},
-  {name:"炸雞排",hint:"比臉還大的台灣國民小吃"}
+const FOODS=[
+{name:"滷肉飯",hint:"便當店的靈魂"},{name:"臭豆腐",hint:"聞到先皺眉，吃到就上癮"},
+{name:"蚵仔煎",hint:"夜市鐵板上的海味"},{name:"鳳梨酥",hint:"外國人最愛帶回家的伴手禮"},
+{name:"太陽餅",hint:"台中名產，但裡面沒有太陽"},{name:"牛肉麵",hint:"紅燒或清燉，冠軍賽年年辦"},
+{name:"蔥油餅",hint:"路邊攤壓得扁扁的麵團香"},{name:"胡椒餅",hint:"烤爐貼壁，咬一口會燙嘴"},
+{name:"豬血糕",hint:"外國人最怕的台灣小吃之一"},{name:"車輪餅",hint:"紅豆奶油任你選的圓形點心"},
+{name:"芋圓冰",hint:"九份老街人手一碗"},{name:"仙草凍",hint:"黑色的，但是是甜的"},
+{name:"愛玉冰",hint:"山上採的籽搓出來的透明果凍"},{name:"鹹酥雞",hint:"宵夜排隊王，九層塔是靈魂"},
+{name:"雞肉飯",hint:"嘉義人的驕傲"},{name:"肉圓湯",hint:"彰化名產，透明外皮包肉餡"},
+{name:"碗粿糕",hint:"白白的用碗蒸，配醬油膏"},{name:"蛋餅捲",hint:"台灣人早餐的國民選擇"},
+{name:"水煎包",hint:"底部煎到金黃脆脆的包子"},{name:"小籠包",hint:"薄皮裡藏著燙口湯汁"},
+{name:"生煎包",hint:"上海來的，但台灣人也超愛"},{name:"鍋貼餃",hint:"比水餃多了一面焦香"},
+{name:"紅豆餅",hint:"冬天校門口最療癒的點心"},{name:"草仔粿",hint:"清明節拜拜常見的綠色糕點"},
+{name:"米糕筒",hint:"糯米飯壓得緊緊的筒狀小吃"},{name:"筒仔米",hint:"用竹筒蒸出來的糯米香"},
+{name:"麻糬球",hint:"QQ的會牽絲，花生粉是好朋友"},{name:"花生糖",hint:"過年必買的古早味零嘴"},
+{name:"牛舌餅",hint:"形狀像牛舌頭的薄脆餅"},{name:"綠豆椪",hint:"中秋節不只月餅還有它"},
+{name:"蘿蔔糕",hint:"過年必吃，煎到兩面恰恰"},{name:"油飯糕",hint:"生小孩滿月會送的糯米飯"},
+{name:"米粉湯",hint:"清湯配細細白白的米製麵條"},{name:"擔仔麵",hint:"台南度小月的招牌"},
+{name:"意麵羹",hint:"黃色的麵條配勾芡湯頭"},{name:"大腸麵",hint:"大腸頭配麵線的經典組合"},
+{name:"蚵仔麵",hint:"鮮蚵配麵線，廟口必吃"},{name:"魷魚羹",hint:"勾芡湯裡的海鮮條"},
+{name:"花枝丸",hint:"彈牙的海鮮丸子，炸的最讚"},{name:"甜不辣",hint:"日本關東煮的台灣親戚"},
+{name:"潤餅捲",hint:"清明節用薄皮包一堆料"},{name:"割包夾",hint:"台灣漢堡，夾滷肉和花生粉"},
+{name:"排骨飯",hint:"便當店的人氣王，炸的滷的都有"},{name:"雞腿飯",hint:"便當雙霸之一，學生最愛"},
+{name:"便當盒",hint:"鐵路上最有名的那一盒"},{name:"豆花湯",hint:"軟嫩白色的甜品，加糖水最對味"},
+{name:"燒仙草",hint:"冬天來一碗熱呼呼的黑色甜湯"},{name:"木瓜牛",hint:"橘色的果汁，夜市必喝"},
+{name:"珍珠奶",hint:"征服全世界的台灣飲料"},{name:"冬瓜茶",hint:"古早味甜茶，糖磚煮出來的"},
+{name:"青草茶",hint:"路邊涼茶攤的退火聖品"},{name:"楊桃汁",hint:"鹹鹹甜甜的黃色果汁"},
+{name:"酸梅湯",hint:"冰冰酸酸的，夏天超解渴"},{name:"麵茶粉",hint:"沖熱水攪一攪的古早味飲品"},
+{name:"炸雞排",hint:"比臉還大的台灣國民小吃"}
 ];
 
-// === 合法猜測清單（包含所有答案 + 額外常見詞）===
-const VALID_GUESSES = new Set([
-  ...FOODS.map(f=>f.name),
-  "紅燒肉","白斬雞","三杯雞","麻辣鍋","酸辣湯",
-  "炒米粉","炒飯糰","飯糰捲","豬腳麵","滷味攤",
-  "鹽酥雞","雞蛋糕","章魚燒","可麗餅","鬆餅塔",
-  "奶茶杯","紅茶冰","綠茶凍","咖啡奶","豆漿杯"
-]);
+const MAX=4, LEN=3;
+let answer,hint,row,over,guesses;
 
-// === 根據日期選答案 ===
-let todayHint = '';
-function getRandomAnswer() {
-  const food = FOODS[Math.floor(Math.random() * FOODS.length)];
-  todayHint = food.hint;
-  return food.name;
+function init(){
+  const f=FOODS[Math.floor(Math.random()*FOODS.length)];
+  answer=f.name; hint=f.hint; row=0; over=false; guesses=[];
+  document.getElementById('hint').textContent='💡 提示：'+hint;
+  document.getElementById('chances-num').textContent=MAX;
+  document.getElementById('history').innerHTML='';
+  document.getElementById('message').textContent='';
+  document.getElementById('end-screen').style.display='none';
+  document.getElementById('input-area').style.display='flex';
+  buildCurrent();
+  document.getElementById('text-input').value='';
+  document.getElementById('text-input').focus();
 }
 
-// === 遊戲狀態 ===
-let ANSWER = getRandomAnswer();
-const MAX_GUESSES = 4;
-const WORD_LEN = 3;
-let currentRow = 0;
-let gameOver = false;
-let guesses = [];
-
-// === localStorage ===
-function getStats() {
-  const d = localStorage.getItem('twfood-stats');
-  return d ? JSON.parse(d) : { played: 0, won: 0, streak: 0, maxStreak: 0, dist: {1:0,2:0,3:0,4:0} };
-}
-function saveStats(s) { localStorage.setItem('twfood-stats', JSON.stringify(s)); }
-
-
-// === DOM ===
-const board = document.getElementById('board');
-const input = document.getElementById('text-input');
-const submitBtn = document.getElementById('submit-btn');
-const clearBtn = document.getElementById('clear-btn');
-const msgEl = document.getElementById('message');
-const endScreen = document.getElementById('end-screen');
-const endTitle = document.getElementById('end-title');
-const endAnswer = document.getElementById('end-answer');
-const shareBtn = document.getElementById('share-btn');
-const statsEl = document.getElementById('stats');
-
-// === 建立棋盤 ===
-function createBoard() {
-  board.innerHTML = '';
-  for (let r = 0; r < MAX_GUESSES; r++) {
-    const row = document.createElement('div');
-    row.className = 'row';
-    for (let c = 0; c < WORD_LEN; c++) {
-      const tile = document.createElement('div');
-      tile.className = 'tile';
-      tile.id = `tile-${r}-${c}`;
-      row.appendChild(tile);
-    }
-    board.appendChild(row);
-  }
+function buildCurrent(){
+  const r=document.getElementById('current-row'); r.innerHTML='';
+  for(let i=0;i<LEN;i++){const t=document.createElement('div');t.className='tile';t.id='t'+i;r.appendChild(t)}
 }
 
-// === 判定邏輯 ===
-function evaluate(guess, answer) {
-  const result = Array(WORD_LEN).fill('absent');
-  const ansArr = [...answer];
-  const guessArr = [...guess];
-  const used = Array(WORD_LEN).fill(false);
-
-  // 先找完全正確
-  for (let i = 0; i < WORD_LEN; i++) {
-    if (guessArr[i] === ansArr[i]) {
-      result[i] = 'correct';
-      used[i] = true;
-    }
-  }
-  // 再找位置錯誤
-  for (let i = 0; i < WORD_LEN; i++) {
-    if (result[i] === 'correct') continue;
-    for (let j = 0; j < WORD_LEN; j++) {
-      if (!used[j] && guessArr[i] === ansArr[j]) {
-        result[i] = 'present';
-        used[j] = true;
-        break;
-      }
-    }
-  }
-  return result;
+function fillCurrent(s){
+  const c=[...s];
+  for(let i=0;i<LEN;i++){const t=document.getElementById('t'+i);if(i<c.length){t.textContent=c[i];t.className='tile filled'}else{t.textContent='';t.className='tile'}}
 }
 
-// === 顯示猜測結果（帶翻轉動畫）===
-function revealRow(row, guess, result) {
-  const chars = [...guess];
-  for (let i = 0; i < WORD_LEN; i++) {
-    const tile = document.getElementById(`tile-${row}-${i}`);
-    setTimeout(() => {
-      tile.classList.add('flip');
-      setTimeout(() => {
-        tile.textContent = chars[i];
-        tile.className = `tile filled ${result[i]}`;
-      }, 250);
-    }, i * 300);
-  }
+function evaluate(g,a){
+  const r=Array(LEN).fill('absent'),aa=[...a],used=Array(LEN).fill(false),ga=[...g];
+  for(let i=0;i<LEN;i++)if(ga[i]===aa[i]){r[i]='correct';used[i]=true}
+  for(let i=0;i<LEN;i++){if(r[i]==='correct')continue;for(let j=0;j<LEN;j++)if(!used[j]&&ga[i]===aa[j]){r[i]='present';used[j]=true;break}}
+  return r;
 }
 
-// === 填入文字到格子（輸入時預覽）===
-function fillRow(row, text) {
-  const chars = [...text];
-  for (let i = 0; i < WORD_LEN; i++) {
-    const tile = document.getElementById(`tile-${row}-${i}`);
-    if (i < chars.length) {
-      tile.textContent = chars[i];
-      tile.className = 'tile filled';
-      tile.classList.add('pop');
-      setTimeout(() => tile.classList.remove('pop'), 100);
-    } else {
-      tile.textContent = '';
-      tile.className = 'tile';
-    }
-  }
+function addHistory(g,res){
+  const h=document.getElementById('history'),d=document.createElement('div');d.className='hist-row';
+  const chars=[...g];
+  for(let i=0;i<LEN;i++){const t=document.createElement('div');t.className='hist-tile '+res[i];t.textContent=chars[i];d.appendChild(t)}
+  h.appendChild(d);
 }
 
-// === 顯示訊息 ===
-function showMsg(text, duration = 2000) {
-  msgEl.textContent = text;
-  if (duration > 0) setTimeout(() => { msgEl.textContent = ''; }, duration);
+function showMsg(t,ms){
+  const m=document.getElementById('message');m.textContent=t;
+  if(ms>0)setTimeout(()=>{m.textContent=''},ms);
 }
 
-// === 統計顯示 ===
-function showStats(highlightRow) {
-  const s = getStats();
-  document.getElementById('s-played').textContent = s.played;
-  document.getElementById('s-win').textContent = s.played ? Math.round(s.won / s.played * 100) : 0;
-  document.getElementById('s-streak').textContent = s.streak;
-  document.getElementById('s-max').textContent = s.maxStreak;
-
-  const distEl = document.getElementById('distribution');
-  distEl.innerHTML = '';
-  const maxVal = Math.max(1, ...Object.values(s.dist));
-
-  for (let i = 1; i <= 4; i++) {
-    const row = document.createElement('div');
-    row.className = 'stat-row';
-    const label = document.createElement('div');
-    label.className = 'label';
-    label.textContent = i;
-    const bar = document.createElement('div');
-    bar.className = 'bar' + (i === highlightRow ? ' highlight' : '');
-    bar.style.width = Math.max(8, (s.dist[i] / maxVal) * 200) + 'px';
-    bar.textContent = s.dist[i];
-    row.appendChild(label);
-    row.appendChild(bar);
-    distEl.appendChild(row);
-  }
-  statsEl.style.display = 'block';
+function submit(){
+  if(over)return;
+  const inp=document.getElementById('text-input'),g=inp.value.trim();
+  if([...g].length!==LEN){showMsg('請輸入 3 個字！',2000);return}
+  if(!/^[\u4e00-\u9fff]{3}$/.test(g)){showMsg('請輸入中文字！',2000);return}
+  const res=evaluate(g,answer);
+  guesses.push(g);
+  addHistory(g,res);
+  row++;
+  const won=g===answer;
+  document.getElementById('chances-num').textContent=MAX-row;
+  // 清空當前格
+  buildCurrent();
+  inp.value='';
+  if(won||row>=MAX){
+    over=true;
+    document.getElementById('input-area').style.display='none';
+    document.getElementById('current-row').style.display='none';
+    const et=document.getElementById('end-title'),ea=document.getElementById('end-answer');
+    if(won){const m=['天才！🎉','厲害！👏','不錯喔！😄','好險！😅'];et.textContent=m[row-1]||'答對了！';ea.textContent=''}
+    else{et.textContent='沒猜到 😢';ea.textContent='答案是：'+answer}
+    document.getElementById('end-screen').style.display='block';
+  }else{inp.focus()}
 }
 
-// === 分享結果 ===
-function getShareText() {
-  const today = '挑戰';
-  const emojiMap = { correct: '🟩', present: '🟨', absent: '⬛' };
-  let text = `🍜 猜台灣小吃 ${today}\n`;
-  text += gameOver && guesses.length <= MAX_GUESSES && guesses[guesses.length - 1] === ANSWER
-    ? `${guesses.length}/${MAX_GUESSES}\n\n`
-    : `X/${MAX_GUESSES}\n\n`;
-
-  for (const g of guesses) {
-    const result = evaluate(g, ANSWER);
-    text += result.map(r => emojiMap[r]).join('') + '\n';
-  }
-  return text.trim();
+function shareResult(){
+  const em={correct:'🟩',present:'🟨',absent:'⬛'};
+  let t='🍜 猜台灣小吃\n';
+  const won=guesses.length>0&&guesses[guesses.length-1]===answer;
+  t+=(won?row:'X')+'/'+MAX+'\n\n';
+  for(const g of guesses){t+=evaluate(g,answer).map(r=>em[r]).join('')+'\n'}
+  if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>showMsg('已複製！📋',2000));
 }
 
-// === 送出猜測 ===
-function submitGuess() {
-  if (gameOver) return;
-  const guess = input.value.trim();
+// Events
+document.getElementById('tutorial-btn').onclick=()=>{document.getElementById('tutorial-overlay').style.display='none';document.getElementById('text-input').focus()};
+document.getElementById('submit-btn').onclick=submit;
+document.getElementById('text-input').addEventListener('input',()=>{if(!over)fillCurrent(document.getElementById('text-input').value.trim())});
+document.getElementById('text-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit()}});
+document.getElementById('share-btn').onclick=shareResult;
+document.getElementById('replay-btn').onclick=()=>{document.getElementById('current-row').style.display='flex';init()};
 
-  if ([...guess].length !== WORD_LEN) {
-    showMsg('請輸入 3 個字！');
-    return;
-  }
-
-  // 驗證是否為合理猜測（放寬：任何3個中文字都接受）
-  const isChinese = /^[\u4e00-\u9fff]{3}$/.test(guess);
-  if (!isChinese) {
-    showMsg('請輸入中文字！');
-    return;
-  }
-
-  guesses.push(guess);
-  const result = evaluate(guess, ANSWER);
-  revealRow(currentRow, guess, result);
-
-  const won = guess === ANSWER;
-  const lastGuess = currentRow === MAX_GUESSES - 1;
-
-  if (won || lastGuess) {
-    gameOver = true;
-    const delay = WORD_LEN * 300 + 300;
-    setTimeout(() => {
-      if (won) {
-        const msgs = ['天才！🎉', '厲害！👏', '不錯喔！😄', '好險！😅'];
-        endTitle.textContent = msgs[currentRow] || '答對了！';
-      } else {
-        endTitle.textContent = '沒猜到 😢';
-      }
-      endAnswer.textContent = won ? '' : `答案是：${ANSWER}`;
-      endScreen.style.display = 'block';
-      document.getElementById('input-area').style.display = 'none';
-
-      // 更新統計
-      const s = getStats();
-      s.played++;
-      if (won) {
-        s.won++;
-        s.streak++;
-        s.maxStreak = Math.max(s.maxStreak, s.streak);
-        s.dist[currentRow + 1]++;
-      } else {
-        s.streak = 0;
-      }
-      saveStats(s);
-      showStats(won ? currentRow + 1 : null);
-        }, delay);
-  }
-
-  currentRow++;
-  input.value = '';
-  input.focus();
-}
-
-
-
-// === 輸入即時預覽 ===
-input.addEventListener('input', () => {
-  if (gameOver) return;
-  const val = input.value.trim();
-  fillRow(currentRow, val);
-});
-
-// === 送出按鈕 ===
-submitBtn.addEventListener('click', submitGuess);
-
-// === 清除按鈕 ===
-clearBtn.addEventListener('click', () => {
-  input.value = '';
-  if (!gameOver) fillRow(currentRow, '');
-  input.focus();
-});
-
-// === Enter 鍵送出 ===
-input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    submitGuess();
-  }
-});
-
-// === 分享按鈕 ===
-shareBtn.addEventListener('click', () => {
-  const text = getShareText();
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      showMsg('已複製到剪貼簿！📋', 2000);
-    });
-  } else {
-    // fallback
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showMsg('已複製到剪貼簿！📋', 2000);
-  }
-});
-
-// === 初始化 ===
-document.getElementById('hint').textContent = '💡 提示：' + todayHint;
-createBoard();
-input.focus();
-
-// === 教學彈窗 ===
-document.getElementById('tutorial-btn').addEventListener('click', () => {
-  document.getElementById('tutorial-overlay').style.display = 'none';
-  input.focus();
-});
-
-// === 再玩一次 ===
-document.getElementById('replay-btn').addEventListener('click', () => {
-  ANSWER = getRandomAnswer();
-  currentRow = 0;
-  gameOver = false;
-  guesses = [];
-  createBoard();
-  document.getElementById('hint').textContent = '💡 提示：' + todayHint;
-  endScreen.style.display = 'none';
-  document.getElementById('input-area').style.display = 'flex';
-  msgEl.textContent = '';
-  statsEl.style.display = 'none';
-  input.value = '';
-  input.focus();
-});
+init();
 </script>
 </body>
 </html>
