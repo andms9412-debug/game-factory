@@ -314,6 +314,16 @@ let currentRow = 0;
 let gameOver = false;
 let guesses = [];
 
+// === 版本遷移（清除舊版紀錄）===
+const GAME_VERSION = "2";
+const vKey = "twfood-version";
+if (localStorage.getItem(vKey) !== GAME_VERSION) {
+  const todayKey = "twfood-" + new Date().toISOString().slice(0,10);
+  localStorage.removeItem(todayKey);
+  localStorage.removeItem("twfood-stats");
+  localStorage.setItem(vKey, GAME_VERSION);
+}
+
 // === localStorage ===
 function getStats() {
   const d = localStorage.getItem('twfood-stats');
