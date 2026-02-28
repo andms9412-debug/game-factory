@@ -2,35 +2,37 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>猜台灣小吃</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#121213;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;user-select:none}
+body{background:#121213;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;user-select:none;overflow-x:hidden;position:relative}
+#pixel-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.15;pointer-events:none;image-rendering:pixelated}
+.ui{position:relative;z-index:1}
 header{width:100%;max-width:420px;text-align:center;padding:12px 0;border-bottom:1px solid #3a3a3c}
-header h1{font-size:26px;letter-spacing:2px}
+header h1{font-size:24px;letter-spacing:2px}
 #game{width:100%;max-width:420px;padding:16px;flex:1;display:flex;flex-direction:column;align-items:center}
-#hint{background:#1a1a1b;border-radius:8px;padding:10px 16px;text-align:center;font-size:15px;color:#e5c236;margin:12px 0;width:100%}
-#chances{font-size:14px;color:#818384;margin:8px 0}
+#hint{background:rgba(26,26,27,0.92);border-radius:8px;padding:10px 16px;text-align:center;font-size:15px;color:#e5c236;margin:10px 0;width:100%;transition:all .3s}
+#chances{font-size:14px;color:#818384;margin:6px 0}
 #chances span{color:#538d4e;font-weight:bold}
-#history{width:100%;margin:8px 0}
-.hist-row{display:flex;align-items:center;gap:5px;margin:4px 0;justify-content:center}
-.hist-tile{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;border-radius:5px}
+#history{width:100%;margin:6px 0}
+.hist-row{display:flex;gap:5px;margin:3px 0;justify-content:center}
+.hist-tile{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:bold;border-radius:5px}
 .hist-tile.correct{background:#538d4e}.hist-tile.present{background:#b59f3b}.hist-tile.absent{background:#3a3a3c}
-#current-row{display:flex;gap:6px;margin:12px 0}
-.tile{width:52px;height:52px;border:2px solid #3a3a3c;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;border-radius:6px}
+#current-row{display:flex;gap:6px;margin:10px 0}
+.tile{width:50px;height:50px;border:2px solid #3a3a3c;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;border-radius:6px}
 .tile.filled{border-color:#565758}
 #input-area{display:flex;gap:8px;align-items:center;margin:8px 0}
-#text-input{font-size:22px;padding:10px 14px;width:160px;text-align:center;background:#272729;border:2px solid #565758;color:#fff;border-radius:8px;outline:none}
+#text-input{font-size:20px;padding:10px 12px;width:150px;text-align:center;background:#272729;border:2px solid #565758;color:#fff;border-radius:8px;outline:none}
 #text-input:focus{border-color:#818384}
-#submit-btn{padding:10px 20px;font-size:16px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;background:#538d4e;color:#fff}
-#message{min-height:28px;font-size:15px;text-align:center;margin:6px 0;color:#e5c236}
-#end-screen{display:none;text-align:center;margin:12px 0}
-#end-screen h2{font-size:22px;margin-bottom:6px}
-#end-screen p{color:#818384;margin-bottom:10px}
-.end-btn{padding:10px 28px;font-size:15px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;color:#fff;margin:4px}
+#submit-btn{padding:10px 18px;font-size:15px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;background:#538d4e;color:#fff}
+#message{min-height:24px;font-size:14px;text-align:center;margin:4px 0;color:#e5c236}
+#end-screen{display:none;text-align:center;margin:10px 0}
+#end-screen h2{font-size:20px;margin-bottom:6px}
+#end-screen p{color:#818384;margin-bottom:8px}
+.end-btn{padding:10px 24px;font-size:14px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;color:#fff;margin:4px}
 #share-btn{background:#538d4e}#replay-btn{background:#b59f3b}
-#tutorial-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100}
+#tutorial-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;z-index:100}
 #tutorial{background:#1a1a1b;border-radius:12px;padding:24px;max-width:340px;width:90%;color:#fff;text-align:left}
 #tutorial h2{text-align:center;margin-bottom:10px;font-size:22px}
 #tutorial p{font-size:14px;color:#ccc;margin:6px 0;line-height:1.5}
@@ -42,10 +44,11 @@ footer{padding:8px;text-align:center;font-size:11px;color:#565758}
 </style>
 </head>
 <body>
-<div id="tutorial-overlay"><div id="tutorial">
+<canvas id="pixel-bg"></canvas>
+<div id="tutorial-overlay" class="ui"><div id="tutorial">
 <h2>🍜 怎麼玩？</h2>
-<p>根據提示，猜出一道<b>三個字</b>的台灣小吃。</p>
-<p>你有 <b>4 次</b>機會，每次猜完格子會變色：</p>
+<p>根據提示猜出一道<b>三個字</b>的台灣小吃。</p>
+<p>你有 <b>4 次</b>機會。每猜錯一次，提示更明確，背景的點陣圖也會更清晰！</p>
 <div class="ex"><div class="t g">滷</div><div class="t x">肉</div><div class="t x">麵</div></div>
 <p>🟩 綠色＝字對、位置也對</p>
 <div class="ex"><div class="t x">鹹</div><div class="t y">酥</div><div class="t x">餅</div></div>
@@ -53,8 +56,8 @@ footer{padding:8px;text-align:center;font-size:11px;color:#565758}
 <p>⬛ 灰色＝答案裡沒這個字</p>
 <button id="tutorial-btn">我懂了，開始！</button>
 </div></div>
-<header><h1>🍜 猜台灣小吃</h1></header>
-<div id="game">
+<header class="ui"><h1>🍜 猜台灣小吃</h1></header>
+<div id="game" class="ui">
 <div id="hint"></div>
 <div id="chances">剩餘 <span id="chances-num">4</span> 次機會</div>
 <div id="history"></div>
@@ -71,58 +74,179 @@ footer{padding:8px;text-align:center;font-size:11px;color:#565758}
 <button class="end-btn" id="replay-btn">🔄 再來一題</button>
 </div>
 </div>
-<footer>猜台灣小吃 v2.0</footer>
+<footer class="ui">猜台灣小吃 v3.0</footer>
 <script>
-const FOODS=[
-{name:"滷肉飯",hint:"便當店的靈魂"},{name:"臭豆腐",hint:"聞到先皺眉，吃到就上癮"},
-{name:"蚵仔煎",hint:"夜市鐵板上的海味"},{name:"鳳梨酥",hint:"外國人最愛帶回家的伴手禮"},
-{name:"太陽餅",hint:"台中名產，但裡面沒有太陽"},{name:"牛肉麵",hint:"紅燒或清燉，冠軍賽年年辦"},
-{name:"蔥油餅",hint:"路邊攤壓得扁扁的麵團香"},{name:"胡椒餅",hint:"烤爐貼壁，咬一口會燙嘴"},
-{name:"豬血糕",hint:"外國人最怕的台灣小吃之一"},{name:"車輪餅",hint:"紅豆奶油任你選的圓形點心"},
-{name:"芋圓冰",hint:"九份老街人手一碗"},{name:"仙草凍",hint:"黑色的，但是是甜的"},
-{name:"愛玉冰",hint:"山上採的籽搓出來的透明果凍"},{name:"鹹酥雞",hint:"宵夜排隊王，九層塔是靈魂"},
-{name:"雞肉飯",hint:"嘉義人的驕傲"},{name:"肉圓湯",hint:"彰化名產，透明外皮包肉餡"},
-{name:"碗粿糕",hint:"白白的用碗蒸，配醬油膏"},{name:"蛋餅捲",hint:"台灣人早餐的國民選擇"},
-{name:"水煎包",hint:"底部煎到金黃脆脆的包子"},{name:"小籠包",hint:"薄皮裡藏著燙口湯汁"},
-{name:"生煎包",hint:"上海來的，但台灣人也超愛"},{name:"鍋貼餃",hint:"比水餃多了一面焦香"},
-{name:"紅豆餅",hint:"冬天校門口最療癒的點心"},{name:"草仔粿",hint:"清明節拜拜常見的綠色糕點"},
-{name:"米糕筒",hint:"糯米飯壓得緊緊的筒狀小吃"},{name:"筒仔米",hint:"用竹筒蒸出來的糯米香"},
-{name:"麻糬球",hint:"QQ的會牽絲，花生粉是好朋友"},{name:"花生糖",hint:"過年必買的古早味零嘴"},
-{name:"牛舌餅",hint:"形狀像牛舌頭的薄脆餅"},{name:"綠豆椪",hint:"中秋節不只月餅還有它"},
-{name:"蘿蔔糕",hint:"過年必吃，煎到兩面恰恰"},{name:"油飯糕",hint:"生小孩滿月會送的糯米飯"},
-{name:"米粉湯",hint:"清湯配細細白白的米製麵條"},{name:"擔仔麵",hint:"台南度小月的招牌"},
-{name:"意麵羹",hint:"黃色的麵條配勾芡湯頭"},{name:"大腸麵",hint:"大腸頭配麵線的經典組合"},
-{name:"蚵仔麵",hint:"鮮蚵配麵線，廟口必吃"},{name:"魷魚羹",hint:"勾芡湯裡的海鮮條"},
-{name:"花枝丸",hint:"彈牙的海鮮丸子，炸的最讚"},{name:"甜不辣",hint:"日本關東煮的台灣親戚"},
-{name:"潤餅捲",hint:"清明節用薄皮包一堆料"},{name:"割包夾",hint:"台灣漢堡，夾滷肉和花生粉"},
-{name:"排骨飯",hint:"便當店的人氣王，炸的滷的都有"},{name:"雞腿飯",hint:"便當雙霸之一，學生最愛"},
-{name:"便當盒",hint:"鐵路上最有名的那一盒"},{name:"豆花湯",hint:"軟嫩白色的甜品，加糖水最對味"},
-{name:"燒仙草",hint:"冬天來一碗熱呼呼的黑色甜湯"},{name:"木瓜牛",hint:"橘色的果汁，夜市必喝"},
-{name:"珍珠奶",hint:"征服全世界的台灣飲料"},{name:"冬瓜茶",hint:"古早味甜茶，糖磚煮出來的"},
-{name:"青草茶",hint:"路邊涼茶攤的退火聖品"},{name:"楊桃汁",hint:"鹹鹹甜甜的黃色果汁"},
-{name:"酸梅湯",hint:"冰冰酸酸的，夏天超解渴"},{name:"麵茶粉",hint:"沖熱水攪一攪的古早味飲品"},
-{name:"炸雞排",hint:"比臉還大的台灣國民小吃"}
-];
+const FOODS=[{"name": "滷肉飯", "hints": ["熱騰騰的主食", "便當店裡最常見的", "上面淋了醬色的汁", "便當店的靈魂"], "cat": "bowl", "colors": ["#8B4513", "#FFF", "#D2691E"]}, {"name": "臭豆腐", "hints": ["它是炸的或煮的", "聞起來讓人皺眉", "配泡菜最對味", "聞到先皺眉，吃到就上癮"], "cat": "square", "colors": ["#DAA520", "#F5DEB3", "#CD853F"]}, {"name": "蚵仔煎", "hints": ["夜市的鐵板料理", "有海鮮有蛋有粉漿", "淋上橘紅色醬料", "夜市鐵板上的海味"], "cat": "flat", "colors": ["#FFA500", "#FFD700", "#F0E68C"]}, {"name": "鳳梨酥", "hints": ["伴手禮常見的", "方方正正的小點心", "裡面有果餡", "外國人最愛帶回家的伴手禮"], "cat": "square", "colors": ["#DAA520", "#FFD700", "#F4A460"]}, {"name": "太陽餅", "hints": ["圓圓扁扁的餅", "中部的名產", "酥皮層層疊疊", "台中名產，但裡面沒有太陽"], "cat": "round", "colors": ["#F5DEB3", "#FAEBD7", "#DEB887"]}, {"name": "牛肉麵", "hints": ["湯頭是重點", "紅燒或清燉都有", "碗裡有大塊的肉", "紅燒或清燉，冠軍賽年年辦"], "cat": "bowl", "colors": ["#8B0000", "#D2691E", "#FFF"]}, {"name": "蔥油餅", "hints": ["路邊攤常見", "壓得扁扁的", "聞到蔥香就餓了", "路邊攤壓得扁扁的麵團香"], "cat": "round", "colors": ["#DAA520", "#FFD700", "#228B22"]}, {"name": "胡椒餅", "hints": ["烤出來的", "貼在爐壁上烤", "裡面有肉餡很燙", "烤爐貼壁，咬一口會燙嘴"], "cat": "round", "colors": ["#8B4513", "#D2691E", "#CD853F"]}, {"name": "豬血糕", "hints": ["黑黑的長方形", "插著竹籤吃", "沾花生粉和香菜", "外國人最怕的台灣小吃之一"], "cat": "stick", "colors": ["#2F1B14", "#4A2C2A", "#DEB887"]}, {"name": "車輪餅", "hints": ["圓圓的點心", "有甜的也有鹹的", "紅豆或奶油口味", "紅豆奶油任你選的圓形點心"], "cat": "round", "colors": ["#DAA520", "#8B0000", "#FFF"]}, {"name": "芋圓冰", "hints": ["山城老街必吃", "QQ的配料", "紫色和黃色的球", "九份老街人手一碗"], "cat": "bowl", "colors": ["#7B68EE", "#FFD700", "#DEB887"]}, {"name": "仙草凍", "hints": ["黑色的甜品", "夏天消暑聖品", "加糖水或牛奶", "黑色的，但是是甜的"], "cat": "bowl", "colors": ["#1C1C1C", "#2F2F2F", "#FFF"]}, {"name": "愛玉冰", "hints": ["透明的果凍", "天然植物做的", "加檸檬汁最讚", "山上採的籽搓出來的透明果凍"], "cat": "bowl", "colors": ["#FFFACD", "#FFD700", "#32CD32"]}, {"name": "鹹酥雞", "hints": ["宵夜首選", "炸物攤的招牌", "九層塔是關鍵配角", "宵夜排隊王，九層塔是靈魂"], "cat": "pile", "colors": ["#DAA520", "#CD853F", "#228B22"]}, {"name": "雞肉飯", "hints": ["南部的名產飯", "雞絲鋪在飯上", "淋上雞油超香", "嘉義人的驕傲"], "cat": "bowl", "colors": ["#F5DEB3", "#FFF", "#DAA520"]}, {"name": "肉圓湯", "hints": ["中部名產", "外皮是透明的", "裡面包肉餡", "彰化名產，透明外皮包肉餡"], "cat": "round", "colors": ["#F5F5DC", "#8B4513", "#DEB887"]}, {"name": "碗粿糕", "hints": ["用碗蒸出來的", "白白軟軟的", "配醬油膏吃", "白白的用碗蒸，配醬油膏"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#8B4513"]}, {"name": "蛋餅捲", "hints": ["早餐店必有", "蛋和麵皮的組合", "捲起來切段", "台灣人早餐的國民選擇"], "cat": "roll", "colors": ["#FFD700", "#F5DEB3", "#DAA520"]}, {"name": "水煎包", "hints": ["底部是脆的", "有肉餡的麵食", "一面煎一面蒸", "底部煎到金黃脆脆的包子"], "cat": "round", "colors": ["#FFF", "#DAA520", "#F5DEB3"]}, {"name": "小籠包", "hints": ["薄皮的點心", "裡面有湯汁", "要小心燙口", "薄皮裡藏著燙口湯汁"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#FFD700"]}, {"name": "生煎包", "hints": ["底部焦脆的包子", "從上海傳來的", "台灣人也很愛", "上海來的，但台灣人也超愛"], "cat": "round", "colors": ["#FFF", "#DAA520", "#8B4513"]}, {"name": "鍋貼餃", "hints": ["有一面是煎的", "形狀像餃子", "比水餃多了焦香", "比水餃多了一面焦香"], "cat": "flat", "colors": ["#F5DEB3", "#DAA520", "#FFF"]}, {"name": "紅豆餅", "hints": ["圓圓甜甜的", "校門口常賣", "冬天吃最幸福", "冬天校門口最療癒的點心"], "cat": "round", "colors": ["#8B0000", "#DAA520", "#F5DEB3"]}, {"name": "草仔粿", "hints": ["綠色的糕點", "拜拜會用到", "清明節常見", "清明節拜拜常見的綠色糕點"], "cat": "round", "colors": ["#228B22", "#2E8B57", "#8B4513"]}, {"name": "米糕筒", "hints": ["糯米做的", "壓得很緊實", "筒狀的小吃", "糯米飯壓得緊緊的筒狀小吃"], "cat": "stick", "colors": ["#F5DEB3", "#DAA520", "#8B4513"]}, {"name": "筒仔米", "hints": ["糯米的香氣", "用特殊容器蒸", "竹子的清香", "用竹筒蒸出來的糯米香"], "cat": "stick", "colors": ["#228B22", "#F5DEB3", "#DAA520"]}, {"name": "麻糬球", "hints": ["QQ的口感", "會牽絲", "沾粉吃的甜點", "QQ的會牽絲，花生粉是好朋友"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#DEB887"]}, {"name": "花生糖", "hints": ["古早味零食", "過年常買", "甜甜脆脆的", "過年必買的古早味零嘴"], "cat": "square", "colors": ["#DEB887", "#D2B48C", "#F5DEB3"]}, {"name": "牛舌餅", "hints": ["薄薄的餅乾", "形狀很特別", "像某個動物部位", "形狀像牛舌頭的薄脆餅"], "cat": "flat", "colors": ["#DEB887", "#F5DEB3", "#D2B48C"]}, {"name": "綠豆椪", "hints": ["中秋節的點心", "不是月餅", "綠色的豆做的", "中秋節不只月餅還有它"], "cat": "round", "colors": ["#F5DEB3", "#90EE90", "#DEB887"]}, {"name": "蘿蔔糕", "hints": ["過年必吃", "煎到兩面金黃", "白色的糕", "過年必吃，煎到兩面恰恰"], "cat": "square", "colors": ["#FFF", "#DAA520", "#F5F5DC"]}, {"name": "油飯糕", "hints": ["慶祝時會吃", "糯米做的飯", "滿月會送的", "生小孩滿月會送的糯米飯"], "cat": "bowl", "colors": ["#8B4513", "#DAA520", "#F5DEB3"]}, {"name": "米粉湯", "hints": ["清湯的麵食", "細細白白的", "米做的麵條", "清湯配細細白白的米製麵條"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#87CEEB"]}, {"name": "擔仔麵", "hints": ["南部的名麵", "小小一碗", "百年老店的招牌", "台南度小月的招牌"], "cat": "bowl", "colors": ["#D2691E", "#FFF", "#8B4513"]}, {"name": "意麵羹", "hints": ["勾芡的湯麵", "黃色的麵條", "濃稠的湯頭", "黃色的麵條配勾芡湯頭"], "cat": "bowl", "colors": ["#FFD700", "#DAA520", "#DEB887"]}, {"name": "大腸麵", "hints": ["廟口小吃", "有內臟的麵", "配麵線吃的", "大腸頭配麵線的經典組合"], "cat": "bowl", "colors": ["#DEB887", "#F5DEB3", "#8B4513"]}, {"name": "蚵仔麵", "hints": ["海鮮配麵線", "廟口必吃的", "鮮甜的湯頭", "鮮蚵配麵線，廟口必吃"], "cat": "bowl", "colors": ["#808080", "#F5DEB3", "#DEB887"]}, {"name": "魷魚羹", "hints": ["勾芡的海鮮湯", "有嚼勁的海鮮", "條狀的配料", "勾芡湯裡的海鮮條"], "cat": "bowl", "colors": ["#FFF", "#F5DEB3", "#DEB887"]}, {"name": "花枝丸", "hints": ["彈牙的丸子", "海鮮做的", "炸的最好吃", "彈牙的海鮮丸子，炸的最讚"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#DAA520"]}, {"name": "甜不辣", "hints": ["日本傳來的", "關東煮家族", "沾醬吃的魚漿", "日本關東煮的台灣親戚"], "cat": "stick", "colors": ["#DEB887", "#D2B48C", "#8B4513"]}, {"name": "潤餅捲", "hints": ["薄皮包很多料", "春天會吃的", "清明節的食物", "清明節用薄皮包一堆料"], "cat": "roll", "colors": ["#F5F5DC", "#228B22", "#DEB887"]}, {"name": "割包夾", "hints": ["夾餡的麵食", "台灣版的漢堡", "有花生粉和肉", "台灣漢堡，夾滷肉和花生粉"], "cat": "round", "colors": ["#FFF", "#8B4513", "#DEB887"]}, {"name": "排骨飯", "hints": ["便當的主菜", "有肉有飯", "炸的或滷的都行", "便當店的人氣王，炸的滷的都有"], "cat": "bowl", "colors": ["#8B4513", "#FFF", "#DAA520"]}, {"name": "雞腿飯", "hints": ["學生最愛便當", "有大塊的肉", "便當雙霸之一", "便當雙霸之一，學生最愛"], "cat": "bowl", "colors": ["#DAA520", "#FFF", "#8B4513"]}, {"name": "便當盒", "hints": ["旅途中吃的", "長方形的容器", "鐵路上最有名", "鐵路上最有名的那一盒"], "cat": "square", "colors": ["#808080", "#FFF", "#8B4513"]}, {"name": "豆花湯", "hints": ["白色的甜品", "軟嫩的口感", "加糖水吃的", "軟嫩白色的甜品，加糖水最對味"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#FFFACD"]}, {"name": "燒仙草", "hints": ["冬天的熱甜湯", "黑色的飲品", "加料更好喝", "冬天來一碗熱呼呼的黑色甜湯"], "cat": "bowl", "colors": ["#1C1C1C", "#2F2F2F", "#8B0000"]}, {"name": "木瓜牛", "hints": ["橘色的飲料", "水果打的", "夜市必喝的", "橘色的果汁，夜市必喝"], "cat": "cup", "colors": ["#FFA500", "#FF8C00", "#FFF"]}, {"name": "珍珠奶", "hints": ["征服全世界的", "有嚼勁的配料", "台灣的驕傲飲品", "征服全世界的台灣飲料"], "cat": "cup", "colors": ["#DEB887", "#2F1B14", "#FFF"]}, {"name": "冬瓜茶", "hints": ["古早味的茶", "糖磚煮的", "甜甜的涼飲", "古早味甜茶，糖磚煮出來的"], "cat": "cup", "colors": ["#DAA520", "#8B4513", "#FFD700"]}, {"name": "青草茶", "hints": ["退火的飲料", "路邊涼茶攤", "綠色的茶飲", "路邊涼茶攤的退火聖品"], "cat": "cup", "colors": ["#228B22", "#2E8B57", "#90EE90"]}, {"name": "楊桃汁", "hints": ["鹹甜的果汁", "黃色的飲料", "特殊形狀的水果", "鹹鹹甜甜的黃色果汁"], "cat": "cup", "colors": ["#FFD700", "#DAA520", "#FFFACD"]}, {"name": "酸梅湯", "hints": ["酸酸的飲料", "夏天解渴的", "冰冰涼涼的", "冰冰酸酸的，夏天超解渴"], "cat": "cup", "colors": ["#8B0000", "#A52A2A", "#FFD700"]}, {"name": "麵茶粉", "hints": ["古早味飲品", "沖熱水喝的", "攪一攪就好", "沖熱水攪一攪的古早味飲品"], "cat": "cup", "colors": ["#DEB887", "#D2B48C", "#8B4513"]}, {"name": "炸雞排", "hints": ["比臉還大", "炸物之王", "排隊也要買", "比臉還大的台灣國民小吃"], "cat": "flat", "colors": ["#DAA520", "#CD853F", "#8B4513"]}];
 
-const MAX=4, LEN=3;
-let answer,hint,row,over,guesses;
+const MAX=4,LEN=3;
+let answer,currentFood,row,over,guesses;
+const cvs=document.getElementById('pixel-bg'),ctx=cvs.getContext('2d');
+const SRC=32; // source pixel art size
+
+// Offscreen canvas for original pixel art
+const off=document.createElement('canvas');
+off.width=SRC;off.height=SRC;
+const octx=off.getContext('2d');
+
+// Draw pixel art based on category
+function drawPixelArt(food){
+  octx.clearRect(0,0,SRC,SRC);
+  const c=food.colors;
+  const cat=food.cat;
+  const S=SRC;
+  
+  if(cat==='bowl'){
+    // Bowl shape
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const cx=S/2,cy=S*0.6,rx=S*0.38,ry=S*0.22;
+      const dx=(x-cx)/rx,dy=(y-cy)/ry;
+      if(dx*dx+dy*dy<=1&&y>S*0.38){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Food on top
+    for(let y=Math.floor(S*0.3);y<Math.floor(S*0.48);y++)
+      for(let x=Math.floor(S*0.18);x<Math.floor(S*0.82);x++){
+        const cx=S/2,r=S*0.32-((y-S*0.3)/(S*0.18))*S*0.08;
+        if(Math.abs(x-cx)<r){octx.fillStyle=c[1];octx.fillRect(x,y,1,1)}
+      }
+    // Topping
+    for(let y=Math.floor(S*0.32);y<Math.floor(S*0.42);y++)
+      for(let x=Math.floor(S*0.28);x<Math.floor(S*0.72);x++)
+        if(Math.random()>0.35){octx.fillStyle=c[2];octx.fillRect(x,y,1,1)}
+  }
+  else if(cat==='round'){
+    const cx=S/2,cy=S/2,r=S*0.36;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const d=Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
+      if(d<=r){
+        octx.fillStyle=d<r*0.5?c[1]:d<r*0.8?c[0]:c[2];
+        octx.fillRect(x,y,1,1);
+      }
+    }
+  }
+  else if(cat==='square'){
+    const m=Math.floor(S*0.18),w=S-m*2;
+    octx.fillStyle=c[0];octx.fillRect(m,m,w,w);
+    octx.fillStyle=c[1];octx.fillRect(m+3,m+3,w-6,w-6);
+    octx.fillStyle=c[2];
+    for(let i=0;i<4;i++)octx.fillRect(m+4+i*Math.floor(w/5),m+4,Math.floor(w/6),Math.floor(w/6));
+  }
+  else if(cat==='flat'){
+    const cx=S/2,cy=S*0.52;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const dx=(x-cx)/(S*0.42),dy=(y-cy)/(S*0.22);
+      if(dx*dx+dy*dy<=1){
+        octx.fillStyle=y<cy?c[1]:c[0];
+        octx.fillRect(x,y,1,1);
+      }
+    }
+    octx.fillStyle=c[2];
+    for(let x=Math.floor(S*0.3);x<Math.floor(S*0.7);x++)
+      for(let y=Math.floor(S*0.45);y<Math.floor(S*0.52);y++)
+        if(Math.random()>0.3)octx.fillRect(x,y,1,1);
+  }
+  else if(cat==='stick'){
+    const x1=Math.floor(S*0.34),x2=Math.floor(S*0.66),y1=Math.floor(S*0.12),y2=Math.floor(S*0.78);
+    octx.fillStyle=c[0];octx.fillRect(x1,y1,x2-x1,y2-y1);
+    octx.fillStyle=c[1];octx.fillRect(x1+2,y1+2,x2-x1-4,Math.floor((y2-y1)*0.5));
+    octx.fillStyle=c[2];octx.fillRect(Math.floor(S*0.45),y2,Math.floor(S*0.1),Math.floor(S*0.14));
+  }
+  else if(cat==='roll'){
+    for(let y=Math.floor(S*0.25);y<Math.floor(S*0.75);y++)
+      for(let x=Math.floor(S*0.12);x<Math.floor(S*0.88);x++){
+        octx.fillStyle=c[0];octx.fillRect(x,y,1,1);
+      }
+    for(let y=Math.floor(S*0.32);y<Math.floor(S*0.68);y++)
+      for(let x=Math.floor(S*0.18);x<Math.floor(S*0.82);x++){
+        octx.fillStyle=Math.random()>0.5?c[1]:c[2];
+        octx.fillRect(x,y,1,1);
+      }
+  }
+  else if(cat==='cup'){
+    // Cup body
+    for(let y=Math.floor(S*0.15);y<Math.floor(S*0.8);y++){
+      const t=(y-S*0.15)/(S*0.65);
+      const hw=S*0.18+t*S*0.12;
+      for(let x=Math.floor(S/2-hw);x<Math.floor(S/2+hw);x++){
+        octx.fillStyle=t<0.7?c[0]:c[1];
+        octx.fillRect(x,y,1,1);
+      }
+    }
+    // Lid
+    octx.fillStyle=c[2];
+    for(let x=Math.floor(S*0.28);x<Math.floor(S*0.72);x++)
+      octx.fillRect(x,Math.floor(S*0.12),1,3);
+    // Straw
+    octx.fillStyle=c[2];
+    octx.fillRect(Math.floor(S*0.55),Math.floor(S*0.02),2,Math.floor(S*0.15));
+  }
+  else if(cat==='pile'){
+    // Pile of fried food
+    for(let i=0;i<12;i++){
+      const px=Math.floor(S*0.2+Math.random()*S*0.6);
+      const py=Math.floor(S*0.3+Math.random()*S*0.45);
+      const r=Math.floor(S*0.08+Math.random()*S*0.06);
+      octx.fillStyle=i%3===0?c[2]:i%2===0?c[1]:c[0];
+      for(let y=py-r;y<py+r;y++)for(let x=px-r;x<px+r;x++)
+        if((x-px)*(x-px)+(y-py)*(y-py)<r*r&&x>=0&&x<S&&y>=0&&y<S)
+          octx.fillRect(x,y,1,1);
+    }
+  }
+}
+
+// Render pixelated version to main canvas
+function renderPixelated(level){
+  // level 0-3: 0=most blurry, 3=clearest
+  const pixelSizes=[8,5,3,1]; // how many source pixels per block
+  const ps=pixelSizes[Math.min(level,3)];
+  
+  cvs.width=window.innerWidth;
+  cvs.height=window.innerHeight;
+  ctx.imageSmoothingEnabled=false;
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  
+  // Calculate display size (centered, ~60% of viewport)
+  const dispSize=Math.min(cvs.width,cvs.height)*0.6;
+  const ox=(cvs.width-dispSize)/2;
+  const oy=(cvs.height-dispSize)/2;
+  
+  // Read source and draw pixelated
+  const src=octx.getImageData(0,0,SRC,SRC);
+  const bsize=dispSize/(SRC/ps); // display block size
+  
+  for(let by=0;by<SRC;by+=ps)for(let bx=0;bx<SRC;bx+=ps){
+    // Average color in this block
+    let r=0,g=0,b=0,a=0,cnt=0;
+    for(let dy=0;dy<ps&&by+dy<SRC;dy++)for(let dx=0;dx<ps&&bx+dx<SRC;dx++){
+      const i=((by+dy)*SRC+(bx+dx))*4;
+      if(src.data[i+3]>0){r+=src.data[i];g+=src.data[i+1];b+=src.data[i+2];a+=src.data[i+3];cnt++}
+    }
+    if(cnt>0){
+      ctx.fillStyle=`rgba(${Math.floor(r/cnt)},${Math.floor(g/cnt)},${Math.floor(b/cnt)},${(a/cnt)/255})`;
+      ctx.fillRect(ox+bx/ps*bsize,oy+by/ps*bsize,Math.ceil(bsize),Math.ceil(bsize));
+    }
+  }
+}
 
 function init(){
-  const f=FOODS[Math.floor(Math.random()*FOODS.length)];
-  answer=f.name; hint=f.hint; row=0; over=false; guesses=[];
-  document.getElementById('hint').textContent='💡 提示：'+hint;
+  currentFood=FOODS[Math.floor(Math.random()*FOODS.length)];
+  answer=currentFood.name;
+  row=0;over=false;guesses=[];
+  document.getElementById('hint').textContent='\u{1F4A1} 提示：'+currentFood.hints[0];
   document.getElementById('chances-num').textContent=MAX;
   document.getElementById('history').innerHTML='';
   document.getElementById('message').textContent='';
   document.getElementById('end-screen').style.display='none';
   document.getElementById('input-area').style.display='flex';
+  document.getElementById('current-row').style.display='flex';
   buildCurrent();
   document.getElementById('text-input').value='';
-  document.getElementById('text-input').focus();
+  // Draw pixel art
+  drawPixelArt(currentFood);
+  renderPixelated(0);
 }
 
 function buildCurrent(){
-  const r=document.getElementById('current-row'); r.innerHTML='';
+  const r=document.getElementById('current-row');r.innerHTML='';
   for(let i=0;i<LEN;i++){const t=document.createElement('div');t.className='tile';t.id='t'+i;r.appendChild(t)}
 }
 
@@ -147,7 +271,7 @@ function addHistory(g,res){
 
 function showMsg(t,ms){
   const m=document.getElementById('message');m.textContent=t;
-  if(ms>0)setTimeout(()=>{m.textContent=''},ms);
+  if(ms>0)setTimeout(()=>{if(m.textContent===t)m.textContent=''},ms);
 }
 
 function submit(){
@@ -161,13 +285,23 @@ function submit(){
   row++;
   const won=g===answer;
   document.getElementById('chances-num').textContent=MAX-row;
-  // 清空當前格
+  
+  if(!won&&row<MAX){
+    // Update hint
+    document.getElementById('hint').textContent='\u{1F4A1} 提示：'+currentFood.hints[Math.min(row,3)];
+    // Update pixel art clarity
+    renderPixelated(row);
+  }
+  
   buildCurrent();
   inp.value='';
+  
   if(won||row>=MAX){
     over=true;
     document.getElementById('input-area').style.display='none';
     document.getElementById('current-row').style.display='none';
+    // Show full clarity on end
+    renderPixelated(3);
     const et=document.getElementById('end-title'),ea=document.getElementById('end-answer');
     if(won){const m=['天才！🎉','厲害！👏','不錯喔！😄','好險！😅'];et.textContent=m[row-1]||'答對了！';ea.textContent=''}
     else{et.textContent='沒猜到 😢';ea.textContent='答案是：'+answer}
@@ -180,9 +314,12 @@ function shareResult(){
   let t='🍜 猜台灣小吃\n';
   const won=guesses.length>0&&guesses[guesses.length-1]===answer;
   t+=(won?row:'X')+'/'+MAX+'\n\n';
-  for(const g of guesses){t+=evaluate(g,answer).map(r=>em[r]).join('')+'\n'}
+  for(const g of guesses)t+=evaluate(g,answer).map(r=>em[r]).join('')+'\n';
   if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>showMsg('已複製！📋',2000));
 }
+
+// Resize handler
+window.addEventListener('resize',()=>{if(currentFood)renderPixelated(Math.min(row,3))});
 
 // Events
 document.getElementById('tutorial-btn').onclick=()=>{document.getElementById('tutorial-overlay').style.display='none';document.getElementById('text-input').focus()};
@@ -190,7 +327,7 @@ document.getElementById('submit-btn').onclick=submit;
 document.getElementById('text-input').addEventListener('input',()=>{if(!over)fillCurrent(document.getElementById('text-input').value.trim())});
 document.getElementById('text-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit()}});
 document.getElementById('share-btn').onclick=shareResult;
-document.getElementById('replay-btn').onclick=()=>{document.getElementById('current-row').style.display='flex';init()};
+document.getElementById('replay-btn').onclick=init;
 
 init();
 </script>
