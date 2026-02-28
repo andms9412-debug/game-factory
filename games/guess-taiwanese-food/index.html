@@ -193,12 +193,63 @@ footer {
   font-size: 11px;
   color: #565758;
 }
+
+/* 教學彈窗 */
+#tutorial-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); display: flex; align-items: center;
+  justify-content: center; z-index: 100;
+}
+#tutorial {
+  background: #1a1a1b; border-radius: 12px; padding: 24px;
+  max-width: 360px; width: 90%; color: #fff; text-align: left;
+}
+#tutorial h2 { text-align: center; margin-bottom: 12px; font-size: 22px; }
+#tutorial p { font-size: 14px; color: #ccc; margin: 8px 0; line-height: 1.6; }
+#tutorial .example { display: flex; gap: 4px; margin: 8px 0; }
+#tutorial .example .t {
+  width: 36px; height: 36px; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; font-weight: bold;
+  border-radius: 4px;
+}
+#tutorial .t.g { background: #538d4e; }
+#tutorial .t.y { background: #b59f3b; }
+#tutorial .t.x { background: #3a3a3c; }
+#tutorial-btn {
+  display: block; width: 100%; margin-top: 16px; padding: 12px;
+  font-size: 16px; font-weight: bold; background: #538d4e; color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+}
+/* 再玩一次 */
+#replay-btn {
+  padding: 12px 32px; font-size: 16px; background: #b59f3b; color: #fff;
+  border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+  margin-top: 8px;
+}
 </style>
 </head>
 <body>
+<div id="tutorial-overlay">
+<div id="tutorial">
+  <h2>🍜 怎麼玩？</h2>
+  <p>根據提示，猜出一道<b>三個字</b>的台灣小吃。你有 <b>4 次</b>機會！</p>
+  <p>每次猜完，格子會變色告訴你：</p>
+  <div class="example">
+    <div class="t g">滷</div><div class="t x">肉</div><div class="t x">麵</div>
+  </div>
+  <p>🟩 <b>綠色</b>＝這個字對了，位置也對</p>
+  <div class="example">
+    <div class="t x">鹹</div><div class="t y">酥</div><div class="t x">餅</div>
+  </div>
+  <p>🟨 <b>黃色</b>＝有這個字，但位置不對</p>
+  <p>⬛ <b>灰色</b>＝答案裡沒有這個字</p>
+  <button id="tutorial-btn">我懂了，開始！</button>
+</div>
+</div>
+
 <header>
   <h1>🍜 猜台灣小吃</h1>
-  <p>每天一道，你有 4 次機會</p>
+  <p>猜猜看這是什麼小吃？</p>
 </header>
 <div id="game">
   <div id="hint"></div>
@@ -213,6 +264,7 @@ footer {
     <h2 id="end-title"></h2>
     <p id="end-answer"></p>
     <button id="share-btn">📋 分享結果</button>
+    <button id="replay-btn">🔄 再玩一次</button>
   </div>
   <div id="stats">
     <div class="stat-numbers">
@@ -297,32 +349,19 @@ const VALID_GUESSES = new Set([
 
 // === 根據日期選答案 ===
 let todayHint = '';
-function getTodayAnswer() {
-  const now = new Date();
-  const start = new Date(2026, 0, 1);
-  const diff = Math.floor((now - start) / 86400000);
-  const food = FOODS[diff % FOODS.length];
+function getRandomAnswer() {
+  const food = FOODS[Math.floor(Math.random() * FOODS.length)];
   todayHint = food.hint;
   return food.name;
 }
 
 // === 遊戲狀態 ===
-const ANSWER = getTodayAnswer();
+let ANSWER = getRandomAnswer();
 const MAX_GUESSES = 4;
 const WORD_LEN = 3;
 let currentRow = 0;
 let gameOver = false;
 let guesses = [];
-
-// === 版本遷移（清除舊版紀錄）===
-const GAME_VERSION = "2";
-const vKey = "twfood-version";
-if (localStorage.getItem(vKey) !== GAME_VERSION) {
-  const todayKey = "twfood-" + new Date().toISOString().slice(0,10);
-  localStorage.removeItem(todayKey);
-  localStorage.removeItem("twfood-stats");
-  localStorage.setItem(vKey, GAME_VERSION);
-}
 
 // === localStorage ===
 function getStats() {
@@ -331,15 +370,6 @@ function getStats() {
 }
 function saveStats(s) { localStorage.setItem('twfood-stats', JSON.stringify(s)); }
 
-function getTodayState() {
-  const key = 'twfood-' + new Date().toISOString().slice(0,10);
-  const d = localStorage.getItem(key);
-  return d ? JSON.parse(d) : null;
-}
-function saveTodayState() {
-  const key = 'twfood-' + new Date().toISOString().slice(0,10);
-  localStorage.setItem(key, JSON.stringify({ guesses, gameOver, currentRow }));
-}
 
 // === DOM ===
 const board = document.getElementById('board');
@@ -466,7 +496,7 @@ function showStats(highlightRow) {
 
 // === 分享結果 ===
 function getShareText() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = '挑戰';
   const emojiMap = { correct: '🟩', present: '🟨', absent: '⬛' };
   let text = `🍜 猜台灣小吃 ${today}\n`;
   text += gameOver && guesses.length <= MAX_GUESSES && guesses[guesses.length - 1] === ANSWER
@@ -531,48 +561,15 @@ function submitGuess() {
       }
       saveStats(s);
       showStats(won ? currentRow + 1 : null);
-      saveTodayState();
-    }, delay);
+        }, delay);
   }
 
   currentRow++;
   input.value = '';
   input.focus();
-  saveTodayState();
 }
 
-// === 恢復今日進度 ===
-function restoreState() {
-  const state = getTodayState();
-  if (!state) return;
-  guesses = state.guesses || [];
-  currentRow = state.currentRow || 0;
-  gameOver = state.gameOver || false;
 
-  // 直接顯示之前的猜測（不播動畫）
-  for (let r = 0; r < guesses.length; r++) {
-    const result = evaluate(guesses[r], ANSWER);
-    const chars = [...guesses[r]];
-    for (let c = 0; c < WORD_LEN; c++) {
-      const tile = document.getElementById(`tile-${r}-${c}`);
-      tile.textContent = chars[c];
-      tile.className = `tile filled ${result[c]}`;
-    }
-  }
-
-  if (gameOver) {
-    const won = guesses.length > 0 && guesses[guesses.length - 1] === ANSWER;
-    if (won) {
-      endTitle.textContent = '今天已經猜過了 ✅';
-    } else {
-      endTitle.textContent = '今天沒猜到 😢';
-    }
-    endAnswer.textContent = won ? `答案：${ANSWER}` : `答案是：${ANSWER}`;
-    endScreen.style.display = 'block';
-    document.getElementById('input-area').style.display = 'none';
-    showStats(won ? guesses.length : null);
-  }
-}
 
 // === 輸入即時預覽 ===
 input.addEventListener('input', () => {
@@ -621,8 +618,29 @@ shareBtn.addEventListener('click', () => {
 // === 初始化 ===
 document.getElementById('hint').textContent = '💡 提示：' + todayHint;
 createBoard();
-restoreState();
 input.focus();
+
+// === 教學彈窗 ===
+document.getElementById('tutorial-btn').addEventListener('click', () => {
+  document.getElementById('tutorial-overlay').style.display = 'none';
+  input.focus();
+});
+
+// === 再玩一次 ===
+document.getElementById('replay-btn').addEventListener('click', () => {
+  ANSWER = getRandomAnswer();
+  currentRow = 0;
+  gameOver = false;
+  guesses = [];
+  createBoard();
+  document.getElementById('hint').textContent = '💡 提示：' + todayHint;
+  endScreen.style.display = 'none';
+  document.getElementById('input-area').style.display = 'flex';
+  msgEl.textContent = '';
+  statsEl.style.display = 'none';
+  input.value = '';
+  input.focus();
+});
 </script>
 </body>
 </html>
