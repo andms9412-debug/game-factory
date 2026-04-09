@@ -78,12 +78,73 @@ footer{padding:8px;text-align:center;font-size:11px;color:#565758}
 </div>
 <footer class="ui">猜台灣小吃 v4.0</footer>
 <script>
-const FOODS=[{"name": "滷肉飯", "hints": ["熱騰騰的主食", "便當店裡最常見的", "上面淋了醬色的汁", "便當店的靈魂"], "cat": "bowl", "colors": ["#8B4513", "#FFF", "#D2691E"]}, {"name": "臭豆腐", "hints": ["它是炸的或煮的", "聞起來讓人皺眉", "配泡菜最對味", "聞到先皺眉，吃到就上癮"], "cat": "square", "colors": ["#DAA520", "#F5DEB3", "#CD853F"]}, {"name": "蚵仔煎", "hints": ["夜市的鐵板料理", "有海鮮有蛋有粉漿", "淋上橘紅色醬料", "夜市鐵板上的海味"], "cat": "flat", "colors": ["#FFA500", "#FFD700", "#F0E68C"]}, {"name": "鳳梨酥", "hints": ["伴手禮常見的", "方方正正的小點心", "裡面有果餡", "外國人最愛帶回家的伴手禮"], "cat": "square", "colors": ["#DAA520", "#FFD700", "#F4A460"]}, {"name": "太陽餅", "hints": ["圓圓扁扁的餅", "中部的名產", "酥皮層層疊疊", "台中名產，但裡面沒有太陽"], "cat": "round", "colors": ["#F5DEB3", "#FAEBD7", "#DEB887"]}, {"name": "牛肉麵", "hints": ["湯頭是重點", "紅燒或清燉都有", "碗裡有大塊的肉", "紅燒或清燉，冠軍賽年年辦"], "cat": "bowl", "colors": ["#8B0000", "#D2691E", "#FFF"]}, {"name": "蔥油餅", "hints": ["路邊攤常見", "壓得扁扁的", "聞到蔥香就餓了", "路邊攤壓得扁扁的麵團香"], "cat": "round", "colors": ["#DAA520", "#FFD700", "#228B22"]}, {"name": "胡椒餅", "hints": ["烤出來的", "貼在爐壁上烤", "裡面有肉餡很燙", "烤爐貼壁，咬一口會燙嘴"], "cat": "round", "colors": ["#8B4513", "#D2691E", "#CD853F"]}, {"name": "豬血糕", "hints": ["黑黑的長方形", "插著竹籤吃", "沾花生粉和香菜", "外國人最怕的台灣小吃之一"], "cat": "stick", "colors": ["#2F1B14", "#4A2C2A", "#DEB887"]}, {"name": "車輪餅", "hints": ["圓圓的點心", "有甜的也有鹹的", "紅豆或奶油口味", "紅豆奶油任你選的圓形點心"], "cat": "round", "colors": ["#DAA520", "#8B0000", "#FFF"]}, {"name": "芋圓", "hints": ["山城老街必吃", "QQ的配料", "紫色的球加冰", "九份老街人手一碗"], "cat": "bowl", "colors": ["#7B68EE", "#FFD700", "#DEB887"]}, {"name": "仙草凍", "hints": ["黑色的甜品", "夏天消暑聖品", "加糖水或牛奶", "黑色的，但是是甜的"], "cat": "bowl", "colors": ["#1C1C1C", "#2F2F2F", "#FFF"]}, {"name": "愛玉", "hints": ["透明的果凍", "天然植物做的", "加檸檬汁最讚", "山上採的籽搓出來的透明果凍"], "cat": "bowl", "colors": ["#FFFACD", "#FFD700", "#32CD32"]}, {"name": "鹹酥雞", "hints": ["宵夜首選", "炸物攤的招牌", "九層塔是關鍵配角", "宵夜排隊王，九層塔是靈魂"], "cat": "pile", "colors": ["#DAA520", "#CD853F", "#228B22"]}, {"name": "雞肉飯", "hints": ["南部的名產飯", "雞絲鋪在飯上", "淋上雞油超香", "嘉義人的驕傲"], "cat": "bowl", "colors": ["#F5DEB3", "#FFF", "#DAA520"]}, {"name": "肉圓", "hints": ["中部名產", "外皮是透明的", "裡面包肉餡", "彰化名產，透明外皮包肉餡"], "cat": "round", "colors": ["#F5F5DC", "#8B4513", "#DEB887"]}, {"name": "碗粿", "hints": ["用碗蒸出來的", "白白軟軟的", "配醬油膏吃", "白白的用碗蒸，配醬油膏"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#8B4513"]}, {"name": "蛋餅", "hints": ["早餐店必有", "蛋和麵皮的組合", "捲起來切段", "台灣人早餐的國民選擇"], "cat": "roll", "colors": ["#FFD700", "#F5DEB3", "#DAA520"]}, {"name": "水煎包", "hints": ["底部是脆的", "有肉餡的麵食", "一面煎一面蒸", "底部煎到金黃脆脆的包子"], "cat": "round", "colors": ["#FFF", "#DAA520", "#F5DEB3"]}, {"name": "小籠包", "hints": ["薄皮的點心", "裡面有湯汁", "要小心燙口", "薄皮裡藏著燙口湯汁"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#FFD700"]}, {"name": "生煎包", "hints": ["底部焦脆的包子", "從上海傳來的", "台灣人也很愛", "上海來的，但台灣人也超愛"], "cat": "round", "colors": ["#FFF", "#DAA520", "#8B4513"]}, {"name": "鍋貼", "hints": ["有一面是煎的", "形狀像餃子", "比水餃多了焦香", "比水餃多了一面焦香"], "cat": "flat", "colors": ["#F5DEB3", "#DAA520", "#FFF"]}, {"name": "紅豆餅", "hints": ["圓圓甜甜的", "校門口常賣", "冬天吃最幸福", "冬天校門口最療癒的點心"], "cat": "round", "colors": ["#8B0000", "#DAA520", "#F5DEB3"]}, {"name": "草仔粿", "hints": ["綠色的糕點", "拜拜會用到", "清明節常見", "清明節拜拜常見的綠色糕點"], "cat": "round", "colors": ["#228B22", "#2E8B57", "#8B4513"]}, {"name": "米糕", "hints": ["糯米做的", "壓得很緊實", "配四神湯最對味", "廟口必吃的糯米飯"], "cat": "bowl", "colors": ["#F5DEB3", "#DAA520", "#8B4513"]}, {"name": "筒仔米糕", "hints": ["糯米的香氣", "用特殊容器蒸", "竹筒的清香", "用竹筒蒸出來的糯米香"], "cat": "stick", "colors": ["#228B22", "#F5DEB3", "#DAA520"]}, {"name": "麻糬", "hints": ["QQ的口感", "會牽絲", "沾粉吃的甜點", "QQ的會牽絲，花生粉是好朋友"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#DEB887"]}, {"name": "花生糖", "hints": ["古早味零食", "過年常買", "甜甜脆脆的", "過年必買的古早味零嘴"], "cat": "square", "colors": ["#DEB887", "#D2B48C", "#F5DEB3"]}, {"name": "牛舌餅", "hints": ["薄薄的餅乾", "形狀很特別", "像某個動物部位", "形狀像牛舌頭的薄脆餅"], "cat": "flat", "colors": ["#DEB887", "#F5DEB3", "#D2B48C"]}, {"name": "綠豆椪", "hints": ["中秋節的點心", "不是月餅", "綠色的豆做的", "中秋節不只月餅還有它"], "cat": "round", "colors": ["#F5DEB3", "#90EE90", "#DEB887"]}, {"name": "蘿蔔糕", "hints": ["過年必吃", "煎到兩面金黃", "白色的糕", "過年必吃，煎到兩面恰恰"], "cat": "square", "colors": ["#FFF", "#DAA520", "#F5F5DC"]}, {"name": "油飯", "hints": ["慶祝時會吃", "糯米做的飯", "滿月會送的", "生小孩滿月會送的糯米飯"], "cat": "bowl", "colors": ["#8B4513", "#DAA520", "#F5DEB3"]}, {"name": "米粉湯", "hints": ["清湯的麵食", "細細白白的", "米做的麵條", "清湯配細細白白的米製麵條"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#87CEEB"]}, {"name": "擔仔麵", "hints": ["南部的名麵", "小小一碗", "百年老店的招牌", "台南度小月的招牌"], "cat": "bowl", "colors": ["#D2691E", "#FFF", "#8B4513"]}, {"name": "大腸麵線", "hints": ["廟口小吃", "有內臟的麵", "勾芡的湯配麵線", "大腸頭配麵線的經典組合"], "cat": "bowl", "colors": ["#DEB887", "#F5DEB3", "#8B4513"]}, {"name": "蚵仔麵線", "hints": ["海鮮配麵線", "廟口必吃的", "鮮甜的湯頭", "鮮蚵配麵線，廟口必吃"], "cat": "bowl", "colors": ["#808080", "#F5DEB3", "#DEB887"]}, {"name": "魷魚羹", "hints": ["勾芡的海鮮湯", "有嚼勁的海鮮", "條狀的配料", "勾芡湯裡的海鮮條"], "cat": "bowl", "colors": ["#FFF", "#F5DEB3", "#DEB887"]}, {"name": "花枝丸", "hints": ["彈牙的丸子", "海鮮做的", "炸的最好吃", "彈牙的海鮮丸子，炸的最讚"], "cat": "round", "colors": ["#FFF", "#F5F5DC", "#DAA520"]}, {"name": "甜不辣", "hints": ["日本傳來的", "關東煮家族", "沾醬吃的魚漿", "日本關東煮的台灣親戚"], "cat": "stick", "colors": ["#DEB887", "#D2B48C", "#8B4513"]}, {"name": "潤餅", "hints": ["薄皮包很多料", "春天會吃的", "清明節的食物", "清明節用薄皮包一堆料"], "cat": "roll", "colors": ["#F5F5DC", "#228B22", "#DEB887"]}, {"name": "割包", "hints": ["夾餡的麵食", "台灣版的漢堡", "有花生粉和肉", "台灣漢堡，夾滷肉和花生粉"], "cat": "round", "colors": ["#FFF", "#8B4513", "#DEB887"]}, {"name": "排骨飯", "hints": ["便當的主菜", "有肉有飯", "炸的或滷的都行", "便當店的人氣王，炸的滷的都有"], "cat": "bowl", "colors": ["#8B4513", "#FFF", "#DAA520"]}, {"name": "雞腿飯", "hints": ["學生最愛便當", "有大塊的肉", "便當雙霸之一", "便當雙霸之一，學生最愛"], "cat": "bowl", "colors": ["#DAA520", "#FFF", "#8B4513"]}, {"name": "鐵路便當", "hints": ["旅途中吃的", "長方形的容器", "火車上最有名", "鐵路上最有名的那一盒"], "cat": "square", "colors": ["#808080", "#FFF", "#8B4513"]}, {"name": "豆花", "hints": ["白色的甜品", "軟嫩的口感", "加糖水吃的", "軟嫩白色的甜品，加糖水最對味"], "cat": "bowl", "colors": ["#FFF", "#F5F5DC", "#FFFACD"]}, {"name": "燒仙草", "hints": ["冬天的熱甜湯", "黑色的飲品", "加料更好喝", "冬天來一碗熱呼呼的黑色甜湯"], "cat": "bowl", "colors": ["#1C1C1C", "#2F2F2F", "#8B0000"]}, {"name": "木瓜牛奶", "hints": ["橘色的飲料", "水果打的", "夜市必喝的", "橘色的果汁，夜市必喝"], "cat": "cup", "colors": ["#FFA500", "#FF8C00", "#FFF"]}, {"name": "珍珠奶茶", "hints": ["征服全世界的", "有嚼勁的配料", "台灣的驕傲飲品", "征服全世界的台灣飲料"], "cat": "cup", "colors": ["#DEB887", "#2F1B14", "#FFF"]}, {"name": "冬瓜茶", "hints": ["古早味的茶", "糖磚煮的", "甜甜的涼飲", "古早味甜茶，糖磚煮出來的"], "cat": "cup", "colors": ["#DAA520", "#8B4513", "#FFD700"]}, {"name": "青草茶", "hints": ["退火的飲料", "路邊涼茶攤", "綠色的茶飲", "路邊涼茶攤的退火聖品"], "cat": "cup", "colors": ["#228B22", "#2E8B57", "#90EE90"]}, {"name": "楊桃汁", "hints": ["鹹甜的果汁", "黃色的飲料", "特殊形狀的水果", "鹹鹹甜甜的黃色果汁"], "cat": "cup", "colors": ["#FFD700", "#DAA520", "#FFFACD"]}, {"name": "酸梅湯", "hints": ["酸酸的飲料", "夏天解渴的", "冰冰涼涼的", "冰冰酸酸的，夏天超解渴"], "cat": "cup", "colors": ["#8B0000", "#A52A2A", "#FFD700"]}, {"name": "麵茶", "hints": ["古早味飲品", "沖熱水喝的", "攪一攪就好", "沖熱水攪一攪的古早味飲品"], "cat": "cup", "colors": ["#DEB887", "#D2B48C", "#8B4513"]}, {"name": "炸雞排", "hints": ["比臉還大", "炸物之王", "排隊也要買", "比臉還大的台灣國民小吃"], "cat": "flat", "colors": ["#DAA520", "#CD853F", "#8B4513"]}, {"name": "刈包", "hints": ["白色的外皮", "夾著滷肉", "尾牙必吃", "又叫虎咬豬的古早味"], "cat": "round", "colors": ["#FFF", "#8B4513", "#DEB887"]}, {"name": "滷味", "hints": ["泡在醬汁裡", "想吃什麼自己夾", "鹹香的小吃", "夜市自助夾的醬汁料理"], "cat": "bowl", "colors": ["#4A2C2A", "#8B4513", "#D2691E"]}, {"name": "地瓜球", "hints": ["QQ的炸物", "金黃色的球", "越炸越膨", "夜市裡越壓越大的金黃小球"], "cat": "pile", "colors": ["#FFD700", "#DAA520", "#FF8C00"]}, {"name": "烤玉米", "hints": ["碳烤的香氣", "刷醬的棒狀食物", "路邊攤的排隊王", "刷上獨門醬料的碳烤美味"], "cat": "stick", "colors": ["#FFD700", "#DAA520", "#8B4513"]}, {"name": "棺材板", "hints": ["台南名產", "厚片吐司挖洞", "裡面裝濃湯", "台南獨創的厚吐司裝濃湯"], "cat": "square", "colors": ["#DAA520", "#FFF", "#F5DEB3"]}, {"name": "雞蛋糕", "hints": ["小朋友最愛", "各種造型的", "蛋香味的小點心", "校門口飄出蛋香的小點心"], "cat": "round", "colors": ["#FFD700", "#DAA520", "#F5DEB3"]}];
+const FOODS=[
+{"name":"滷肉飯","hints":["熱騰騰的主食","便當店裡最常見的","上面淋了醬色的汁","便當店的靈魂"],"cat":"bowl","colors":["#8B4513","#FFF","#D2691E"],"deco":["sauce"]},
+{"name":"臭豆腐","hints":["它是炸的或煮的","聞起來讓人皺眉","配泡菜最對味","聞到先皺眉，吃到就上癮"],"cat":"square","colors":["#DAA520","#F5DEB3","#CD853F"],"deco":["sauce_red","herb"]},
+{"name":"蚵仔煎","hints":["夜市的鐵板料理","有海鮮有蛋有粉漿","淋上橘紅色醬料","夜市鐵板上的海味"],"cat":"flat","colors":["#FFA500","#FFD700","#F0E68C"],"deco":["sauce_red"]},
+{"name":"鳳梨酥","hints":["伴手禮常見的","方方正正的小點心","裡面有果餡","外國人最愛帶回家的伴手禮"],"cat":"square","colors":["#DAA520","#FFD700","#F4A460"],"deco":[]},
+{"name":"太陽餅","hints":["圓圓扁扁的餅","中部的名產","酥皮層層疊疊","台中名產，但裡面沒有太陽"],"cat":"layer","colors":["#F5DEB3","#FAEBD7","#DEB887"],"deco":[]},
+{"name":"牛肉麵","hints":["湯頭是重點","紅燒或清燉都有","碗裡有大塊的肉","紅燒或清燉，冠軍賽年年辦"],"cat":"noodle_bowl","colors":["#8B0000","#D2691E","#FFF"],"deco":["steam"]},
+{"name":"蔥油餅","hints":["路邊攤常見","壓得扁扁的","聞到蔥香就餓了","路邊攤壓得扁扁的麵團香"],"cat":"layer","colors":["#DAA520","#FFD700","#228B22"],"deco":["green_flecks"]},
+{"name":"胡椒餅","hints":["烤出來的","貼在爐壁上烤","裡面有肉餡很燙","烤爐貼壁，咬一口會燙嘴"],"cat":"round","colors":["#8B4513","#D2691E","#CD853F"],"deco":["sesame"]},
+{"name":"豬血糕","hints":["黑黑的長方形","插著竹籤吃","沾花生粉和香菜","外國人最怕的台灣小吃之一"],"cat":"slab","colors":["#2F1B14","#4A2C2A","#DEB887"],"deco":["powder","herb"]},
+{"name":"車輪餅","hints":["圓圓的點心","有甜的也有鹹的","紅豆或奶油口味","紅豆奶油任你選的圓形點心"],"cat":"round","colors":["#DAA520","#8B0000","#FFF"],"deco":[]},
+{"name":"芋圓","hints":["山城老街必吃","QQ的配料","紫色的球加冰","九份老街人手一碗"],"cat":"noodle_bowl","colors":["#7B68EE","#FFD700","#DEB887"],"deco":[]},
+{"name":"仙草凍","hints":["黑色的甜品","夏天消暑聖品","加糖水或牛奶","黑色的，但是是甜的"],"cat":"bowl","colors":["#1C1C1C","#2F2F2F","#FFF"],"deco":[]},
+{"name":"愛玉","hints":["透明的果凍","天然植物做的","加檸檬汁最讚","山上採的籽搓出來的透明果凍"],"cat":"bowl","colors":["#FFFACD","#FFD700","#32CD32"],"deco":[]},
+{"name":"鹹酥雞","hints":["宵夜首選","炸物攤的招牌","九層塔是關鍵配角","宵夜排隊王，九層塔是靈魂"],"cat":"pile","colors":["#DAA520","#CD853F","#228B22"],"deco":["herb"]},
+{"name":"雞肉飯","hints":["南部的名產飯","雞絲鋪在飯上","淋上雞油超香","嘉義人的驕傲"],"cat":"bowl","colors":["#F5DEB3","#FFF","#DAA520"],"deco":["sauce","green_flecks"]},
+{"name":"肉圓","hints":["中部名產","外皮是透明的","裡面包肉餡","彰化名產，透明外皮包肉餡"],"cat":"bao","colors":["#F5F5DC","#8B4513","#DEB887"],"deco":["sauce_red"]},
+{"name":"碗粿","hints":["用碗蒸出來的","白白軟軟的","配醬油膏吃","白白的用碗蒸，配醬油膏"],"cat":"bowl","colors":["#FFF","#F5F5DC","#8B4513"],"deco":["drizzle_soy"]},
+{"name":"蛋餅","hints":["早餐店必有","蛋和麵皮的組合","捲起來切段","台灣人早餐的國民選擇"],"cat":"wrap","colors":["#FFD700","#F5DEB3","#DAA520"],"deco":[]},
+{"name":"水煎包","hints":["底部是脆的","有肉餡的麵食","一面煎一面蒸","底部煎到金黃脆脆的包子"],"cat":"bao","colors":["#FFF","#DAA520","#F5DEB3"],"deco":["crispy_bottom"]},
+{"name":"小籠包","hints":["薄皮的點心","裡面有湯汁","要小心燙口","薄皮裡藏著燙口湯汁"],"cat":"bao","colors":["#FFF","#F5F5DC","#FFD700"],"deco":["steam"]},
+{"name":"生煎包","hints":["底部焦脆的包子","從上海傳來的","台灣人也很愛","上海來的，但台灣人也超愛"],"cat":"bao","colors":["#FFF","#DAA520","#8B4513"],"deco":["crispy_bottom","sesame"]},
+{"name":"鍋貼","hints":["有一面是煎的","形狀像餃子","比水餃多了焦香","比水餃多了一面焦香"],"cat":"dumpling","colors":["#F5DEB3","#DAA520","#FFF"],"deco":["crispy_bottom"]},
+{"name":"紅豆餅","hints":["圓圓甜甜的","校門口常賣","冬天吃最幸福","冬天校門口最療癒的點心"],"cat":"round","colors":["#8B0000","#DAA520","#F5DEB3"],"deco":[]},
+{"name":"草仔粿","hints":["綠色的糕點","拜拜會用到","清明節常見","清明節拜拜常見的綠色糕點"],"cat":"round","colors":["#228B22","#2E8B57","#8B4513"],"deco":["leaf"]},
+{"name":"米糕","hints":["糯米做的","壓得很緊實","配四神湯最對味","廟口必吃的糯米飯"],"cat":"bowl","colors":["#F5DEB3","#DAA520","#8B4513"],"deco":["sauce"]},
+{"name":"筒仔米糕","hints":["糯米的香氣","用特殊容器蒸","竹筒的清香","用竹筒蒸出來的糯米香"],"cat":"stick","colors":["#228B22","#F5DEB3","#DAA520"],"deco":["steam"]},
+{"name":"麻糬","hints":["QQ的口感","會牽絲","沾粉吃的甜點","QQ的會牽絲，花生粉是好朋友"],"cat":"round","colors":["#FFF","#F5F5DC","#DEB887"],"deco":["powder"]},
+{"name":"花生糖","hints":["古早味零食","過年常買","甜甜脆脆的","過年必買的古早味零嘴"],"cat":"square","colors":["#DEB887","#D2B48C","#F5DEB3"],"deco":["sesame"]},
+{"name":"牛舌餅","hints":["薄薄的餅乾","形狀很特別","像某個動物部位","形狀像牛舌頭的薄脆餅"],"cat":"flat","colors":["#DEB887","#F5DEB3","#D2B48C"],"deco":[]},
+{"name":"綠豆椪","hints":["中秋節的點心","不是月餅","綠色的豆做的","中秋節不只月餅還有它"],"cat":"layer","colors":["#F5DEB3","#90EE90","#DEB887"],"deco":[]},
+{"name":"蘿蔔糕","hints":["過年必吃","煎到兩面金黃","白色的糕","過年必吃，煎到兩面恰恰"],"cat":"slab","colors":["#FFF","#DAA520","#F5F5DC"],"deco":["crispy_bottom"]},
+{"name":"油飯","hints":["慶祝時會吃","糯米做的飯","滿月會送的","生小孩滿月會送的糯米飯"],"cat":"bowl","colors":["#8B4513","#DAA520","#F5DEB3"],"deco":["green_flecks"]},
+{"name":"米粉湯","hints":["清湯的麵食","細細白白的","米做的麵條","清湯配細細白白的米製麵條"],"cat":"noodle_bowl","colors":["#F0F8FF","#FFF","#87CEEB"],"deco":["steam"]},
+{"name":"擔仔麵","hints":["南部的名麵","小小一碗","百年老店的招牌","台南度小月的招牌"],"cat":"noodle_bowl","colors":["#D2691E","#FFF","#8B4513"],"deco":["green_flecks"]},
+{"name":"大腸麵線","hints":["廟口小吃","有內臟的麵","勾芡的湯配麵線","大腸頭配麵線的經典組合"],"cat":"noodle_bowl","colors":["#DEB887","#F5DEB3","#8B4513"],"deco":["sauce"]},
+{"name":"蚵仔麵線","hints":["海鮮配麵線","廟口必吃的","鮮甜的湯頭","鮮蚵配麵線，廟口必吃"],"cat":"noodle_bowl","colors":["#808080","#F5DEB3","#DEB887"],"deco":["sauce"]},
+{"name":"魷魚羹","hints":["勾芡的海鮮湯","有嚼勁的海鮮","條狀的配料","勾芡湯裡的海鮮條"],"cat":"noodle_bowl","colors":["#FFF","#F5DEB3","#DEB887"],"deco":["steam"]},
+{"name":"花枝丸","hints":["彈牙的丸子","海鮮做的","炸的最好吃","彈牙的海鮮丸子，炸的最讚"],"cat":"skewer","colors":["#FFF","#F5F5DC","#DAA520"],"deco":[]},
+{"name":"甜不辣","hints":["日本傳來的","關東煮家族","沾醬吃的魚漿","日本關東煮的台灣親戚"],"cat":"skewer","colors":["#DEB887","#D2B48C","#8B4513"],"deco":["sauce"]},
+{"name":"潤餅","hints":["薄皮包很多料","春天會吃的","清明節的食物","清明節用薄皮包一堆料"],"cat":"wrap","colors":["#F5F5DC","#228B22","#DEB887"],"deco":["powder"]},
+{"name":"割包","hints":["夾餡的麵食","台灣版的漢堡","有花生粉和肉","台灣漢堡，夾滷肉和花生粉"],"cat":"wrap","colors":["#FFF","#8B4513","#DEB887"],"deco":["powder"]},
+{"name":"排骨飯","hints":["便當的主菜","有肉有飯","炸的或滷的都行","便當店的人氣王，炸的滷的都有"],"cat":"box","colors":["#808080","#FFF","#8B4513"],"deco":[]},
+{"name":"雞腿飯","hints":["學生最愛便當","有大塊的肉","便當雙霸之一","便當雙霸之一，學生最愛"],"cat":"box","colors":["#808080","#FFF","#DAA520"],"deco":[]},
+{"name":"鐵路便當","hints":["旅途中吃的","長方形的容器","火車上最有名","鐵路上最有名的那一盒"],"cat":"box","colors":["#808080","#FFF","#8B4513"],"deco":["chopsticks"]},
+{"name":"豆花","hints":["白色的甜品","軟嫩的口感","加糖水吃的","軟嫩白色的甜品，加糖水最對味"],"cat":"bowl","colors":["#FFF","#F5F5DC","#FFFACD"],"deco":["bubbles"]},
+{"name":"燒仙草","hints":["冬天的熱甜湯","黑色的飲品","加料更好喝","冬天來一碗熱呼呼的黑色甜湯"],"cat":"noodle_bowl","colors":["#1C1C1C","#2F2F2F","#8B0000"],"deco":["steam"]},
+{"name":"木瓜牛奶","hints":["橘色的飲料","水果打的","夜市必喝的","橘色的果汁，夜市必喝"],"cat":"cup","colors":["#FFA500","#FF8C00","#FFF"],"deco":["straw","bubbles"]},
+{"name":"珍珠奶茶","hints":["征服全世界的","有嚼勁的配料","台灣的驕傲飲品","征服全世界的台灣飲料"],"cat":"cup","colors":["#DEB887","#2F1B14","#FFF"],"deco":["straw","bubbles"]},
+{"name":"冬瓜茶","hints":["古早味的茶","糖磚煮的","甜甜的涼飲","古早味甜茶，糖磚煮出來的"],"cat":"cup","colors":["#DAA520","#8B4513","#FFD700"],"deco":["straw"]},
+{"name":"青草茶","hints":["退火的飲料","路邊涼茶攤","綠色的茶飲","路邊涼茶攤的退火聖品"],"cat":"cup","colors":["#228B22","#2E8B57","#90EE90"],"deco":["straw"]},
+{"name":"楊桃汁","hints":["鹹甜的果汁","黃色的飲料","特殊形狀的水果","鹹鹹甜甜的黃色果汁"],"cat":"cup","colors":["#FFD700","#DAA520","#FFFACD"],"deco":["straw"]},
+{"name":"酸梅湯","hints":["酸酸的飲料","夏天解渴的","冰冰涼涼的","冰冰酸酸的，夏天超解渴"],"cat":"cup","colors":["#8B0000","#A52A2A","#FFD700"],"deco":["straw"]},
+{"name":"麵茶","hints":["古早味飲品","沖熱水喝的","攪一攪就好","沖熱水攪一攪的古早味飲品"],"cat":"cup","colors":["#DEB887","#D2B48C","#8B4513"],"deco":["steam"]},
+{"name":"炸雞排","hints":["比臉還大","炸物之王","排隊也要買","比臉還大的台灣國民小吃"],"cat":"flat","colors":["#DAA520","#CD853F","#8B4513"],"deco":["sesame"]},
+{"name":"刈包","hints":["白色的外皮","夾著滷肉","尾牙必吃","又叫虎咬豬的古早味"],"cat":"wrap","colors":["#FFF","#8B4513","#DEB887"],"deco":["herb"]},
+{"name":"滷味","hints":["泡在醬汁裡","想吃什麼自己夾","鹹香的小吃","夜市自助夾的醬汁料理"],"cat":"pile","colors":["#4A2C2A","#8B4513","#D2691E"],"deco":["chopsticks"]},
+{"name":"地瓜球","hints":["QQ的炸物","金黃色的球","越炸越膨","夜市裡越壓越大的金黃小球"],"cat":"pile","colors":["#FFD700","#DAA520","#FF8C00"],"deco":[]},
+{"name":"烤玉米","hints":["碳烤的香氣","刷醬的棒狀食物","路邊攤的排隊王","刷上獨門醬料的碳烤美味"],"cat":"stick","colors":["#FFD700","#DAA520","#8B4513"],"deco":["corn_rows","sauce"]},
+{"name":"棺材板","hints":["台南名產","厚片吐司挖洞","裡面裝濃湯","台南獨創的厚吐司裝濃湯"],"cat":"slab","colors":["#DAA520","#FFF","#F5DEB3"],"deco":["lid_open"]},
+{"name":"雞蛋糕","hints":["小朋友最愛","各種造型的","蛋香味的小點心","校門口飄出蛋香的小點心"],"cat":"round","colors":["#FFD700","#DAA520","#F5DEB3"],"deco":["egg_shapes"]}
+];
 
 const MAX=4;
 let answer,answerLen,currentFood,row,over,guesses;
 const cvs=document.getElementById('pixel-bg'),ctx=cvs.getContext('2d');
-const SRC=32;
+const SRC=192;
 const off=document.createElement('canvas');
 off.width=SRC;off.height=SRC;
 const octx=off.getContext('2d');
@@ -91,71 +152,595 @@ const octx=off.getContext('2d');
 function drawPixelArt(food){
   octx.clearRect(0,0,SRC,SRC);
   const c=food.colors,S=SRC,cat=food.cat;
+
   if(cat==='bowl'){
+    // Bowl body - wide elliptical shape bottom 60%
     for(let y=0;y<S;y++)for(let x=0;x<S;x++){
-      const cx=S/2,cy=S*0.6,rx=S*0.38,ry=S*0.22;
-      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1&&y>S*0.38){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+      const cx=S/2,cy=S*0.62,rx=S*0.42,ry=S*0.28;
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1&&y>S*0.34){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
     }
-    for(let y=~~(S*0.3);y<~~(S*0.48);y++)for(let x=~~(S*0.18);x<~~(S*0.82);x++){
-      const r=S*0.32-((y-S*0.3)/(S*0.18))*S*0.08;
+    // Bowl rim - arc at top
+    for(let y=~~(S*0.32);y<~~(S*0.38);y++)for(let x=~~(S*0.1);x<~~(S*0.9);x++){
+      const cx=S/2,rx=S*0.40,ry=S*0.04;
+      if(((x-cx)/rx)**2+((y-S*0.35)/ry)**2<=1){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Contents surface
+    for(let y=~~(S*0.36);y<~~(S*0.52);y++)for(let x=~~(S*0.16);x<~~(S*0.84);x++){
+      const r=S*0.34-((y-S*0.36)/(S*0.16))*S*0.10;
       if(Math.abs(x-S/2)<r){octx.fillStyle=c[1];octx.fillRect(x,y,1,1)}
     }
-    for(let y=~~(S*0.32);y<~~(S*0.42);y++)for(let x=~~(S*0.28);x<~~(S*0.72);x++)
-      if(Math.random()>0.35){octx.fillStyle=c[2];octx.fillRect(x,y,1,1)}
+    // Toppings scattered on top
+    for(let y=~~(S*0.38);y<~~(S*0.50);y++)for(let x=~~(S*0.22);x<~~(S*0.78);x++){
+      if(Math.random()>0.45){octx.fillStyle=c[2];octx.fillRect(x,y,1,1)}
+    }
+  } else if(cat==='noodle_bowl'){
+    // Same bowl shape
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const cx=S/2,cy=S*0.62,rx=S*0.42,ry=S*0.28;
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1&&y>S*0.34){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Bowl rim
+    for(let y=~~(S*0.32);y<~~(S*0.38);y++)for(let x=~~(S*0.1);x<~~(S*0.9);x++){
+      const cx=S/2,rx=S*0.40,ry=S*0.04;
+      if(((x-cx)/rx)**2+((y-S*0.35)/ry)**2<=1){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Broth surface
+    for(let y=~~(S*0.36);y<~~(S*0.55);y++)for(let x=~~(S*0.16);x<~~(S*0.84);x++){
+      const r=S*0.34-((y-S*0.36)/(S*0.19))*S*0.10;
+      if(Math.abs(x-S/2)<r){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Wavy noodle lines
+    octx.strokeStyle=c[1];octx.lineWidth=3;
+    for(let n=0;n<4;n++){
+      octx.beginPath();
+      const baseY=S*0.40+n*S*0.035;
+      for(let x=~~(S*0.22);x<~~(S*0.78);x++){
+        const y=baseY+Math.sin((x+n*20)*0.08)*S*0.02;
+        if(x===~~(S*0.22))octx.moveTo(x,y);else octx.lineTo(x,y);
+      }
+      octx.stroke();
+    }
+    // Topping chunks
+    octx.fillStyle=c[2];
+    for(let i=0;i<3;i++){
+      const tx=S*0.30+i*S*0.15,ty=S*0.40+i*S*0.02;
+      octx.fillRect(tx,ty,S*0.08,S*0.05);
+    }
+  } else if(cat==='box'){
+    // 3D rectangular container
+    const bx=S*0.12,by=S*0.25,bw=S*0.76,bh=S*0.55;
+    // Front face
+    octx.fillStyle=c[0];
+    octx.fillRect(bx,by+S*0.08,bw,bh);
+    // Top face (parallelogram for 3D)
+    octx.fillStyle=c[0];
+    octx.beginPath();
+    octx.moveTo(bx,by+S*0.08);
+    octx.lineTo(bx+S*0.08,by);
+    octx.lineTo(bx+bw+S*0.08,by);
+    octx.lineTo(bx+bw,by+S*0.08);
+    octx.closePath();
+    octx.fill();
+    // Rice/base filling
+    octx.fillStyle=c[1];
+    octx.fillRect(bx+S*0.04,by+S*0.12,bw-S*0.08,bh-S*0.08);
+    // Main dish item on top-right
+    octx.fillStyle=c[2];
+    const dx=bx+bw*0.45,dy=by+S*0.14,dw=bw*0.45,dh=bh*0.40;
+    octx.fillRect(dx,dy,dw,dh);
+    // Side items
+    octx.fillStyle=c[2];
+    octx.globalAlpha=0.6;
+    octx.fillRect(bx+S*0.06,by+S*0.14,bw*0.25,bh*0.20);
+    octx.globalAlpha=1.0;
+    // Container rim highlight
+    octx.strokeStyle=c[0];octx.lineWidth=3;
+    octx.strokeRect(bx,by+S*0.08,bw,bh);
+  } else if(cat==='slab'){
+    // Thick vertical rectangle with 3D perspective
+    const sx=S*0.22,sy=S*0.18,sw=S*0.50,sh=S*0.62;
+    // Front face
+    octx.fillStyle=c[0];
+    octx.fillRect(sx,sy+S*0.06,sw,sh);
+    // Top face (parallelogram)
+    octx.fillStyle=c[1];
+    octx.beginPath();
+    octx.moveTo(sx,sy+S*0.06);
+    octx.lineTo(sx+S*0.10,sy);
+    octx.lineTo(sx+sw+S*0.10,sy);
+    octx.lineTo(sx+sw,sy+S*0.06);
+    octx.closePath();
+    octx.fill();
+    // Right side face
+    octx.fillStyle=c[0];
+    octx.globalAlpha=0.7;
+    octx.beginPath();
+    octx.moveTo(sx+sw,sy+S*0.06);
+    octx.lineTo(sx+sw+S*0.10,sy);
+    octx.lineTo(sx+sw+S*0.10,sy+sh);
+    octx.lineTo(sx+sw,sy+S*0.06+sh);
+    octx.closePath();
+    octx.fill();
+    octx.globalAlpha=1.0;
+    // Inner texture/detail spots
+    octx.fillStyle=c[2];
+    for(let i=0;i<8;i++){
+      const px=sx+S*0.06+Math.random()*sw*0.7;
+      const py=sy+S*0.12+Math.random()*sh*0.7;
+      octx.fillRect(px,py,S*0.04,S*0.03);
+    }
+  } else if(cat==='layer'){
+    // Circular/oval pastry with horizontal layers
+    const cx=S/2,cy=S/2,rx=S*0.36,ry=S*0.30;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1){
+        const layerIdx=~~((y-cy+ry)/(ry*2)*5);
+        if(layerIdx%2===0) octx.fillStyle=c[0];
+        else octx.fillStyle=c[1];
+        octx.fillRect(x,y,1,1);
+      }
+    }
+    // Layer line separations
+    octx.strokeStyle=c[1];octx.lineWidth=2;
+    for(let i=1;i<5;i++){
+      const ly=cy-ry+i*(ry*2/5);
+      const halfW=rx*Math.sqrt(1-((ly-cy)/ry)**2);
+      if(halfW>0){
+        octx.beginPath();
+        octx.moveTo(cx-halfW,ly);
+        octx.lineTo(cx+halfW,ly);
+        octx.stroke();
+      }
+    }
+    // Filling glimpse between layers
+    octx.fillStyle=c[2];
+    for(let i=1;i<5;i+=2){
+      const ly=cy-ry+i*(ry*2/5)+2;
+      const halfW=rx*Math.sqrt(Math.max(0,1-((ly-cy)/ry)**2))*0.6;
+      if(halfW>0){
+        octx.globalAlpha=0.5;
+        octx.fillRect(cx-halfW,ly,halfW*2,S*0.015);
+        octx.globalAlpha=1.0;
+      }
+    }
   } else if(cat==='round'){
     const cx=S/2,cy=S/2,r=S*0.36;
     for(let y=0;y<S;y++)for(let x=0;x<S;x++){
       const d=Math.hypot(x-cx,y-cy);
-      if(d<=r){octx.fillStyle=d<r*0.5?c[1]:d<r*0.8?c[0]:c[2];octx.fillRect(x,y,1,1)}
-    }
-  } else if(cat==='square'){
-    const m=~~(S*0.18),w=S-m*2;
-    octx.fillStyle=c[0];octx.fillRect(m,m,w,w);
-    octx.fillStyle=c[1];octx.fillRect(m+3,m+3,w-6,w-6);
-    octx.fillStyle=c[2];
-    for(let i=0;i<4;i++)octx.fillRect(m+4+i*~~(w/5),m+4,~~(w/6),~~(w/6));
-  } else if(cat==='flat'){
-    const cx=S/2,cy=S*0.52;
-    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
-      if(((x-cx)/(S*0.42))**2+((y-cy)/(S*0.22))**2<=1){
-        octx.fillStyle=y<cy?c[1]:c[0];octx.fillRect(x,y,1,1);
+      if(d<=r){
+        if(d<r*0.50) octx.fillStyle=c[1];
+        else if(d<r*0.80) octx.fillStyle=c[0];
+        else octx.fillStyle=c[2];
+        octx.fillRect(x,y,1,1);
       }
     }
-    octx.fillStyle=c[2];
-    for(let x=~~(S*0.3);x<~~(S*0.7);x++)for(let y=~~(S*0.45);y<~~(S*0.52);y++)
-      if(Math.random()>0.3)octx.fillRect(x,y,1,1);
-  } else if(cat==='stick'){
-    const x1=~~(S*0.34),x2=~~(S*0.66),y1=~~(S*0.12),y2=~~(S*0.78);
-    octx.fillStyle=c[0];octx.fillRect(x1,y1,x2-x1,y2-y1);
-    octx.fillStyle=c[1];octx.fillRect(x1+2,y1+2,x2-x1-4,~~((y2-y1)*0.5));
-    octx.fillStyle=c[2];octx.fillRect(~~(S*0.45),y2,~~(S*0.1),~~(S*0.14));
-  } else if(cat==='roll'){
-    for(let y=~~(S*0.25);y<~~(S*0.75);y++)for(let x=~~(S*0.12);x<~~(S*0.88);x++){
-      octx.fillStyle=c[0];octx.fillRect(x,y,1,1);
+  } else if(cat==='bao'){
+    // Dome shape - top 2/3 semicircle, bottom flat
+    const cx=S/2,botY=S*0.72,r=S*0.34;
+    // Dome body
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const d=Math.hypot(x-cx,y-botY);
+      if(d<=r&&y<=botY){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
     }
-    for(let y=~~(S*0.32);y<~~(S*0.68);y++)for(let x=~~(S*0.18);x<~~(S*0.82);x++){
-      octx.fillStyle=Math.random()>0.5?c[1]:c[2];octx.fillRect(x,y,1,1);
+    // Flat bottom rectangle
+    octx.fillStyle=c[0];
+    octx.fillRect(cx-r,botY-2,r*2,S*0.06);
+    // Pleat lines radiating from top center
+    octx.strokeStyle=c[1];octx.lineWidth=2;
+    for(let i=0;i<5;i++){
+      const angle=-Math.PI*0.15+i*Math.PI*0.075;
+      octx.beginPath();
+      octx.moveTo(cx,botY-r+S*0.04);
+      octx.lineTo(cx+Math.sin(angle)*r*0.7,botY-r+S*0.04+Math.cos(angle)*r*0.65);
+      octx.stroke();
+    }
+    // Filling visible at bottom
+    octx.fillStyle=c[2];
+    octx.fillRect(cx-r*0.5,botY,r,S*0.04);
+  } else if(cat==='wrap'){
+    // Horizontal cylinder shape (burrito-like)
+    const cx=S/2,cy=S/2,rx=S*0.40,ry=S*0.18;
+    // Main body
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1){
+        octx.fillStyle=c[0];octx.fillRect(x,y,1,1);
+      }
+    }
+    // Tapered ends shading
+    for(let y=~~(cy-ry*0.6);y<~~(cy+ry*0.6);y++)for(let x=~~(cx-rx);x<~~(cx-rx+S*0.08);x++){
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1){
+        octx.fillStyle=c[0];octx.globalAlpha=0.7;octx.fillRect(x,y,1,1);octx.globalAlpha=1;
+      }
+    }
+    // Cross-section / filling visible at right end
+    const endCx=cx+rx*0.85,endRy=ry*0.55;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      const d=Math.hypot((x-endCx)*1.5,y-cy);
+      if(d<endRy){
+        octx.fillStyle=d<endRy*0.5?c[2]:c[1];octx.fillRect(x,y,1,1);
+      }
+    }
+    // Wrapper edge highlight
+    octx.strokeStyle=c[0];octx.lineWidth=2;
+    octx.beginPath();octx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);octx.stroke();
+  } else if(cat==='flat'){
+    // Wide flat ellipse, very low aspect ratio
+    const cx=S/2,cy=S*0.52;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      if(((x-cx)/(S*0.42))**2+((y-cy)/(S*0.12))**2<=1){
+        octx.fillStyle=y<cy?c[0]:c[1];octx.fillRect(x,y,1,1);
+      }
+    }
+    // Surface texture spots
+    octx.fillStyle=c[2];
+    for(let i=0;i<20;i++){
+      const px=cx-S*0.30+Math.random()*S*0.60;
+      const py=cy-S*0.06+Math.random()*S*0.08;
+      if(((px-cx)/(S*0.38))**2+((py-cy)/(S*0.10))**2<=1){
+        octx.fillRect(px,py,S*0.02,S*0.015);
+      }
+    }
+    // Thickness edge
+    octx.fillStyle=c[1];
+    for(let x=~~(cx-S*0.40);x<~~(cx+S*0.40);x++){
+      const ey=cy+S*0.12*Math.sqrt(Math.max(0,1-((x-cx)/(S*0.42))**2));
+      octx.fillRect(x,ey,1,S*0.03);
+    }
+  } else if(cat==='dumpling'){
+    // Crescent / half-moon shape, horizontal
+    const cx=S/2,cy=S*0.52,rx=S*0.38,ry=S*0.22;
+    // Main body - top half of ellipse
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1&&y<=cy+ry*0.3){
+        octx.fillStyle=c[0];octx.fillRect(x,y,1,1);
+      }
+    }
+    // Bottom flat edge
+    octx.fillStyle=c[2];
+    for(let x=~~(cx-rx*0.9);x<~~(cx+rx*0.9);x++){
+      octx.fillRect(x,~~(cy+ry*0.2),1,S*0.04);
+    }
+    // Crimped edge along top arc (zigzag)
+    octx.strokeStyle=c[1];octx.lineWidth=3;
+    octx.beginPath();
+    for(let i=0;i<=20;i++){
+      const t=-Math.PI*(0.1)+i*Math.PI*0.04;
+      const bx=cx+Math.cos(t)*rx*0.95;
+      const by=cy+Math.sin(t)*ry*0.85+(i%2===0?-S*0.02:S*0.02);
+      if(i===0)octx.moveTo(bx,by);else octx.lineTo(bx,by);
+    }
+    octx.stroke();
+    // Pleat marks
+    octx.fillStyle=c[1];
+    for(let i=0;i<8;i++){
+      const t=-Math.PI*0.8+i*Math.PI*0.1;
+      const px=cx+Math.cos(t)*rx*0.7;
+      const py=cy+Math.sin(t)*ry*0.5;
+      octx.fillRect(px-1,py-S*0.02,2,S*0.04);
+    }
+  } else if(cat==='stick'){
+    // Tall vertical rectangle with rounded top
+    const sx=~~(S*0.32),sw=~~(S*0.36),sy=~~(S*0.10),sh=~~(S*0.58);
+    // Rounded top
+    const topCx=sx+sw/2,topCy=sy+sw/2,topR=sw/2;
+    for(let y=sy;y<sy+sw/2;y++)for(let x=sx;x<sx+sw;x++){
+      if(Math.hypot(x-topCx,y-topCy)<=topR){octx.fillStyle=c[0];octx.fillRect(x,y,1,1)}
+    }
+    // Main body
+    octx.fillStyle=c[0];
+    octx.fillRect(sx,sy+sw/2,sw,sh-sw/2);
+    // Coating/detail on body
+    octx.fillStyle=c[1];
+    octx.fillRect(sx+S*0.04,sy+S*0.08,sw-S*0.08,sh*0.45);
+    // Skewer line extending below
+    octx.fillStyle=c[2];
+    octx.fillRect(~~(S*0.47),sy+sh,~~(S*0.06),~~(S*0.22));
+    // Skewer point
+    octx.beginPath();
+    octx.moveTo(S*0.47,sy+sh+S*0.22);
+    octx.lineTo(S*0.53,sy+sh+S*0.22);
+    octx.lineTo(S*0.50,sy+sh+S*0.28);
+    octx.closePath();
+    octx.fillStyle=c[2];octx.fill();
+  } else if(cat==='skewer'){
+    // 3-4 round pieces threaded on a diagonal stick
+    // Diagonal stick
+    octx.strokeStyle=c[2];octx.lineWidth=4;
+    octx.beginPath();
+    octx.moveTo(S*0.18,S*0.78);
+    octx.lineTo(S*0.82,S*0.18);
+    octx.stroke();
+    // Pieces along the stick
+    const pieces=[
+      {x:S*0.30,y:S*0.66,r:S*0.09},
+      {x:S*0.42,y:S*0.54,r:S*0.10},
+      {x:S*0.55,y:S*0.41,r:S*0.09},
+      {x:S*0.67,y:S*0.29,r:S*0.08}
+    ];
+    for(let pi=0;pi<pieces.length;pi++){
+      const p=pieces[pi];
+      const col=pi%2===0?c[0]:c[1];
+      for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+        if(Math.hypot(x-p.x,y-p.y)<=p.r){octx.fillStyle=col;octx.fillRect(x,y,1,1)}
+      }
+      // Highlight
+      octx.fillStyle='rgba(255,255,255,0.15)';
+      for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+        if(Math.hypot(x-p.x+p.r*0.2,y-p.y+p.r*0.2)<=p.r*0.4){octx.fillRect(x,y,1,1)}
+      }
+    }
+  } else if(cat==='square'){
+    // Rounded-corner rectangle
+    const m=~~(S*0.18),w=S-m*2,r=S*0.06;
+    // Outer body with rounded corners
+    octx.fillStyle=c[0];
+    octx.beginPath();
+    octx.moveTo(m+r,m);octx.lineTo(m+w-r,m);octx.quadraticCurveTo(m+w,m,m+w,m+r);
+    octx.lineTo(m+w,m+w-r);octx.quadraticCurveTo(m+w,m+w,m+w-r,m+w);
+    octx.lineTo(m+r,m+w);octx.quadraticCurveTo(m,m+w,m,m+w-r);
+    octx.lineTo(m,m+r);octx.quadraticCurveTo(m,m,m+r,m);
+    octx.closePath();octx.fill();
+    // Inner surface
+    const im=m+S*0.06,iw=w-S*0.12;
+    octx.fillStyle=c[1];
+    octx.fillRect(im,im,iw,iw);
+    // Accent detail blocks
+    octx.fillStyle=c[2];
+    const bs=S*0.06;
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+      if((i+j)%2===0){
+        octx.fillRect(im+S*0.03+i*(iw/3),im+S*0.03+j*(iw/3),bs,bs);
+      }
     }
   } else if(cat==='cup'){
-    for(let y=~~(S*0.15);y<~~(S*0.8);y++){
-      const t=(y-S*0.15)/(S*0.65),hw=S*0.18+t*S*0.12;
-      for(let x=~~(S/2-hw);x<~~(S/2+hw);x++){octx.fillStyle=t<0.7?c[0]:c[1];octx.fillRect(x,y,1,1)}
+    // Tapered trapezoid (wider at top), dome lid
+    const topW=S*0.36,botW=S*0.24,topY=S*0.18,botY=S*0.82;
+    // Cup body
+    for(let y=~~topY;y<~~botY;y++){
+      const t=(y-topY)/(botY-topY);
+      const hw=topW-(topW-botW)*t;
+      const lx=~~(S/2-hw),rx=~~(S/2+hw);
+      for(let x=lx;x<rx;x++){
+        octx.fillStyle=t<0.65?c[0]:c[1];
+        octx.fillRect(x,y,1,1);
+      }
     }
+    // Dome lid
     octx.fillStyle=c[2];
-    for(let x=~~(S*0.28);x<~~(S*0.72);x++)octx.fillRect(x,~~(S*0.12),1,3);
-    octx.fillRect(~~(S*0.55),~~(S*0.02),2,~~(S*0.15));
+    for(let y=~~(S*0.10);y<~~(S*0.20);y++)for(let x=0;x<S;x++){
+      const cx=S/2,rx=topW+S*0.02,ry=S*0.06;
+      if(((x-cx)/rx)**2+((y-S*0.18)/ry)**2<=1){
+        octx.fillRect(x,y,1,1);
+      }
+    }
+    // Rim
+    octx.fillStyle=c[2];
+    octx.fillRect(~~(S/2-topW-S*0.02),~~(S*0.17),~~((topW+S*0.02)*2),~~(S*0.03));
+    // Liquid level line
+    octx.strokeStyle='rgba(255,255,255,0.3)';octx.lineWidth=2;
+    octx.beginPath();
+    const llY=S*0.35;
+    const llHw=topW-(topW-botW)*((llY-topY)/(botY-topY));
+    octx.moveTo(S/2-llHw+S*0.02,llY);
+    octx.lineTo(S/2+llHw-S*0.02,llY);
+    octx.stroke();
   } else if(cat==='pile'){
+    // Irregular cluster of 12-15 small pieces heaped up
+    for(let i=0;i<15;i++){
+      const px=~~(S*0.18+Math.random()*S*0.64);
+      const py=~~(S*0.25+Math.random()*S*0.50);
+      const pr=~~(S*0.06+Math.random()*S*0.05);
+      const isAngular=Math.random()>0.5;
+      const col=i%3===0?c[2]:i%2===0?c[1]:c[0];
+      octx.fillStyle=col;
+      if(isAngular){
+        // Angular piece
+        octx.fillRect(px-pr,py-pr*0.7,pr*2,pr*1.4);
+      } else {
+        // Round piece
+        for(let y=py-pr;y<py+pr;y++)for(let x=px-pr;x<px+pr;x++){
+          if((x-px)**2+(y-py)**2<pr*pr&&x>=0&&x<S&&y>=0&&y<S)octx.fillRect(x,y,1,1);
+        }
+      }
+      // Highlight
+      octx.fillStyle='rgba(255,255,255,0.1)';
+      octx.fillRect(px-pr*0.3,py-pr*0.5,pr*0.5,pr*0.4);
+    }
+  }
+
+  // Apply decorations
+  if(food.deco) food.deco.forEach(d => drawDeco(food, d));
+}
+
+function drawDeco(food, decoType){
+  const S=SRC,c=food.colors;
+
+  if(decoType==='steam'){
+    // 3 wavy semi-transparent white lines rising from top
+    octx.strokeStyle='rgba(255,255,255,0.4)';
+    octx.lineWidth=4;
+    for(let i=0;i<3;i++){
+      octx.beginPath();
+      const baseX=S*0.32+i*S*0.18;
+      for(let dy=0;dy<~~(S*0.22);dy++){
+        const x=baseX+Math.sin(dy*0.12+i*2)*S*0.04;
+        const y=S*0.12-dy*0.6;
+        if(dy===0)octx.moveTo(x,y+S*0.10);else octx.lineTo(x,y+S*0.10);
+      }
+      octx.stroke();
+    }
+  } else if(decoType==='sauce'){
+    // 2-3 horizontal wavy dark brown drizzle lines
+    octx.strokeStyle='#5C3317';octx.lineWidth=3;
+    for(let i=0;i<3;i++){
+      octx.beginPath();
+      const baseY=S*0.36+i*S*0.05;
+      for(let x=~~(S*0.25);x<~~(S*0.75);x++){
+        const y=baseY+Math.sin(x*0.1+i*3)*S*0.015;
+        if(x===~~(S*0.25))octx.moveTo(x,y);else octx.lineTo(x,y);
+      }
+      octx.stroke();
+    }
+  } else if(decoType==='sauce_red'){
+    // Same as sauce but orange-red
+    octx.strokeStyle='#FF4500';octx.lineWidth=3;
+    for(let i=0;i<3;i++){
+      octx.beginPath();
+      const baseY=S*0.36+i*S*0.05;
+      for(let x=~~(S*0.25);x<~~(S*0.75);x++){
+        const y=baseY+Math.sin(x*0.1+i*3)*S*0.015;
+        if(x===~~(S*0.25))octx.moveTo(x,y);else octx.lineTo(x,y);
+      }
+      octx.stroke();
+    }
+  } else if(decoType==='powder'){
+    // ~30 scattered tan dots
+    octx.fillStyle='#DEB887';
+    for(let i=0;i<30;i++){
+      const px=S*0.20+Math.random()*S*0.60;
+      const py=S*0.25+Math.random()*S*0.45;
+      const sz=2+Math.random()*2;
+      octx.fillRect(px,py,sz,sz);
+    }
+  } else if(decoType==='sesame'){
+    // ~12 small white dots scattered on top
+    octx.fillStyle='#FFF';
     for(let i=0;i<12;i++){
-      const px=~~(S*0.2+Math.random()*S*0.6),py=~~(S*0.3+Math.random()*S*0.45),r=~~(S*0.08+Math.random()*S*0.06);
-      octx.fillStyle=i%3===0?c[2]:i%2===0?c[1]:c[0];
-      for(let y=py-r;y<py+r;y++)for(let x=px-r;x<px+r;x++)
-        if((x-px)**2+(y-py)**2<r*r&&x>=0&&x<S&&y>=0&&y<S)octx.fillRect(x,y,1,1);
+      const px=S*0.28+Math.random()*S*0.44;
+      const py=S*0.28+Math.random()*S*0.30;
+      octx.fillRect(px,py,2,2);
+    }
+  } else if(decoType==='green_flecks'){
+    // ~15 small green dots scattered
+    octx.fillStyle='#228B22';
+    for(let i=0;i<15;i++){
+      const px=S*0.22+Math.random()*S*0.56;
+      const py=S*0.32+Math.random()*S*0.25;
+      octx.fillRect(px,py,3,2);
+    }
+  } else if(decoType==='herb'){
+    // 2-3 small leaf shapes (pointed ovals)
+    octx.fillStyle='#228B22';
+    for(let i=0;i<3;i++){
+      const lx=S*0.30+i*S*0.16,ly=S*0.34+i*S*0.04;
+      octx.beginPath();
+      octx.ellipse(lx,ly,S*0.05,S*0.02,i*0.5-0.3,0,Math.PI*2);
+      octx.fill();
+      // Leaf vein
+      octx.strokeStyle='#1A6B1A';octx.lineWidth=1;
+      octx.beginPath();
+      octx.moveTo(lx-S*0.04,ly);octx.lineTo(lx+S*0.04,ly);
+      octx.stroke();
+    }
+  } else if(decoType==='crispy_bottom'){
+    // Bottom 15-18% filled darker golden-brown
+    octx.fillStyle='#B8860B';
+    octx.fillRect(S*0.10,S*0.82,S*0.80,S*0.12);
+    // Hard edge line
+    octx.strokeStyle='#8B6508';octx.lineWidth=2;
+    octx.beginPath();
+    octx.moveTo(S*0.10,S*0.82);octx.lineTo(S*0.90,S*0.82);
+    octx.stroke();
+  } else if(decoType==='straw'){
+    // Diagonal line from upper area extending up-right, striped green/white
+    const sx=S*0.52,sy=S*0.18,ex=S*0.72,ey=S*0.02;
+    octx.lineWidth=4;
+    const steps=12;
+    for(let i=0;i<steps;i++){
+      const t1=i/steps,t2=(i+1)/steps;
+      octx.strokeStyle=i%2===0?'#228B22':'#FFF';
+      octx.beginPath();
+      octx.moveTo(sx+(ex-sx)*t1,sy+(ey-sy)*t1);
+      octx.lineTo(sx+(ex-sx)*t2,sy+(ey-sy)*t2);
+      octx.stroke();
+    }
+    // Bend at top
+    octx.strokeStyle='#228B22';octx.lineWidth=4;
+    octx.beginPath();
+    octx.moveTo(ex,ey);octx.lineTo(ex+S*0.04,ey-S*0.03);
+    octx.stroke();
+  } else if(decoType==='bubbles'){
+    // 5-8 small semi-transparent white circles
+    octx.fillStyle='rgba(255,255,255,0.35)';
+    for(let i=0;i<7;i++){
+      const bx=S*0.30+Math.random()*S*0.40;
+      const by=S*0.22+Math.random()*S*0.20;
+      const br=S*0.015+Math.random()*S*0.015;
+      octx.beginPath();
+      octx.arc(bx,by,br,0,Math.PI*2);
+      octx.fill();
+    }
+  } else if(decoType==='chopsticks'){
+    // Two thin diagonal lines crossing
+    octx.strokeStyle='#D2B48C';octx.lineWidth=3;
+    octx.beginPath();
+    octx.moveTo(S*0.15,S*0.80);octx.lineTo(S*0.60,S*0.25);
+    octx.stroke();
+    octx.beginPath();
+    octx.moveTo(S*0.22,S*0.82);octx.lineTo(S*0.65,S*0.28);
+    octx.stroke();
+  } else if(decoType==='lid_open'){
+    // A tilted rectangle sitting at angle on top
+    octx.save();
+    octx.translate(S*0.62,S*0.12);
+    octx.rotate(-0.4);
+    octx.fillStyle=c[0];
+    octx.fillRect(-S*0.18,-S*0.03,S*0.36,S*0.06);
+    octx.strokeStyle='#8B6508';octx.lineWidth=2;
+    octx.strokeRect(-S*0.18,-S*0.03,S*0.36,S*0.06);
+    octx.restore();
+  } else if(decoType==='leaf'){
+    // Single green leaf shape beside the food
+    octx.fillStyle='#228B22';
+    octx.beginPath();
+    octx.ellipse(S*0.82,S*0.60,S*0.08,S*0.03,0.6,0,Math.PI*2);
+    octx.fill();
+    // Leaf vein
+    octx.strokeStyle='#1A6B1A';octx.lineWidth=1;
+    octx.beginPath();
+    const lcos=Math.cos(0.6)*S*0.07,lsin=Math.sin(0.6)*S*0.07;
+    octx.moveTo(S*0.82-lcos,S*0.60-lsin);
+    octx.lineTo(S*0.82+lcos,S*0.60+lsin);
+    octx.stroke();
+  } else if(decoType==='corn_rows'){
+    // Horizontal rows of small yellow dots across body
+    octx.fillStyle='#FFD700';
+    for(let row=0;row<10;row++){
+      const ry=S*0.18+row*S*0.055;
+      for(let col=0;col<8;col++){
+        const rx=S*0.36+col*S*0.035+(row%2)*S*0.017;
+        octx.fillRect(rx,ry,3,3);
+      }
+    }
+  } else if(decoType==='egg_shapes'){
+    // 3-5 small oval outlines arranged in pattern
+    octx.strokeStyle='#DAA520';octx.lineWidth=2;
+    const positions=[
+      {x:S*0.35,y:S*0.35},{x:S*0.55,y:S*0.32},{x:S*0.68,y:S*0.40},
+      {x:S*0.40,y:S*0.55},{x:S*0.60,y:S*0.55}
+    ];
+    for(const p of positions){
+      octx.beginPath();
+      octx.ellipse(p.x,p.y,S*0.06,S*0.045,0.2,0,Math.PI*2);
+      octx.stroke();
+    }
+  } else if(decoType==='drizzle_soy'){
+    // 2-3 thin dark drizzle lines across top
+    octx.strokeStyle='#3C1414';octx.lineWidth=2;
+    for(let i=0;i<3;i++){
+      octx.beginPath();
+      const baseY=S*0.38+i*S*0.04;
+      for(let x=~~(S*0.25);x<~~(S*0.75);x++){
+        const y=baseY+Math.sin(x*0.08+i*4)*S*0.01;
+        if(x===~~(S*0.25))octx.moveTo(x,y);else octx.lineTo(x,y);
+      }
+      octx.stroke();
     }
   }
 }
 
 function renderPixelated(level){
-  const ps=[8,5,3,1][Math.min(level,3)];
+  const ps=[24,12,6,3,1][Math.min(level,4)];
   cvs.width=window.innerWidth;cvs.height=window.innerHeight;
   ctx.imageSmoothingEnabled=false;ctx.clearRect(0,0,cvs.width,cvs.height);
   const dispSize=Math.min(cvs.width,cvs.height)*0.6;
@@ -240,7 +825,7 @@ function submit(){
     over=true;
     document.getElementById('input-area').style.display='none';
     document.getElementById('current-row').style.display='none';
-    renderPixelated(3);
+    renderPixelated(4);
     const et=document.getElementById('end-title'),ea=document.getElementById('end-answer');
     if(won){et.textContent=['天才！🎉','厲害！👏','不錯喔！😄','好險！😅'][row-1]||'答對了！';ea.textContent=''}
     else{et.textContent='沒猜到 😢';ea.textContent='答案是：'+answer}
@@ -257,7 +842,7 @@ function shareResult(){
   if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>showMsg('已複製！📋',2000));
 }
 
-window.addEventListener('resize',()=>{if(currentFood)renderPixelated(Math.min(row,3))});
+window.addEventListener('resize',()=>{if(currentFood)renderPixelated(Math.min(row,4))});
 document.getElementById('tutorial-btn').onclick=()=>{document.getElementById('tutorial-overlay').style.display='none';document.getElementById('text-input').focus()};
 document.getElementById('submit-btn').onclick=submit;
 document.getElementById('text-input').addEventListener('input',()=>{if(!over)fillCurrent(document.getElementById('text-input').value.trim())});
