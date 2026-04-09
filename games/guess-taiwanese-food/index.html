@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#121213;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;flex-direction:column;align-items:center;min-height:100vh;user-select:none;overflow-x:hidden;position:relative}
-#pixel-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.15;pointer-events:none;image-rendering:pixelated}
+#pixel-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;opacity:0.15;pointer-events:none;image-rendering:pixelated}
 .ui{position:relative;z-index:1}
 header{width:100%;max-width:420px;text-align:center;padding:12px 0;border-bottom:1px solid #3a3a3c}
 header h1{font-size:24px;letter-spacing:2px}
@@ -799,7 +799,7 @@ function evaluate(g,a){
 function addHistory(g,res){
   const h=document.getElementById('history'),d=document.createElement('div');d.className='hist-row';
   const chars=[...g];
-  for(let i=0;i<chars.length;i++){const t=document.createElement('div');t.className='hist-tile '+res[i];t.textContent=chars[i];d.appendChild(t)}
+  for(let i=0;i<res.length;i++){const t=document.createElement('div');t.className='hist-tile '+res[i];t.textContent=i<chars.length?chars[i]:'';d.appendChild(t)}
   h.appendChild(d);
 }
 
@@ -811,7 +811,7 @@ function showMsg(t,ms){
 function submit(){
   if(over)return;
   const inp=document.getElementById('text-input'),g=inp.value.trim();
-  if([...g].length!==answerLen){showMsg('請輸入 '+answerLen+' 個字！',2000);return}
+  if([...g].length===0){showMsg('請輸入答案！',2000);return}
   const res=evaluate(g,answer);
   guesses.push(g);addHistory(g,res);row++;
   const won=g===answer;
